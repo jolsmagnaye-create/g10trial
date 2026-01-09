@@ -1,0 +1,12 @@
+  body {
+    background-image: url('./background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.intro {
+    text-align: center;
+    margin: 1.5rem 0;
+    
+}
