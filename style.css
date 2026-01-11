@@ -72,10 +72,10 @@ nav image {
     top: 0; left: 50%;
     transform: translateX(-50%);
     color: whitesmoke;
-    font-family: 'Times New Roman', Times, serif
+    font-family: 'Times New Roman', Times, serif;
     margin-left: 15px; 
     margin-top: 80px;
-    font-size: clamp(1.2rem, 2vw, 2rem)
+    font-size: clamp(1.2rem, 2vw, 2rem);
     font-weight: bold;
 }
 
