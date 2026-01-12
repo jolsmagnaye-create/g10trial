@@ -67,6 +67,29 @@ nav image {
     text-align: center;
 }
 
+.text-box h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+}   
+
+.hero-btn {
+    display: inline-block;
+    text-decoration: none;
+    color: black;
+    border: 2px solid white;
+    padding: 10px 30px;
+    font-size: 13px;
+    background: lightskyblue;
+    position: relative;
+    cursor: pointer;
+    margin-top: 30px;
+}
+
+.hero-btn:hover {
+    background-color: rgb(8, 137, 241);
+    color: rgb(5, 5, 5);
+    transition: 0.5s;
+}
+
 .mnshs{
     position: absolute;
     top: 0; left: 50%;
@@ -80,6 +103,18 @@ nav image {
 }
 
 .logo{
-    height: 60px;
+    height: auto
     width: auto;
+}
+
+/*------------------- footer -------------------*/
+.footer {
+    background-color: rgb(4, 9, 30);
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    font-family: 'Times New Roman', Times, serif;
 }
