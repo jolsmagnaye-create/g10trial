@@ -1,25 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive School Map</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 10px;
+      text-align: center;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border: 1px solid #ccc;
+    }
+
+    select {
+      padding: 8px;
+      margin: 10px 0;
+      font-size: 16px;
+    }
+
+    .info-box {
+      display: none;
+      margin-top: 15px;
+      padding: 15px;
+      border: 1px solid #aaa;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+
+    .highlight {
+      outline: 4px solid #4CAF50;
+    }
+  </style>
 </head>
 
 <body>
-    <section class="header">
-        <nav>
-            <a href="index.html" class="logo"><img src="photo/NEw logo.png"></a>
-                <div class="nav-links">
-                    <ul>
-                        <li><a href="aboutpage.html" target="_self">about</a></li>
-                        <li><a href="Map.html" target="_self">map</a></li>
-                        <li><a href="contact.html" target="_self">contact</a></li>
-                        <li><a href="facilities.html" target="_self">facilities</a></li>
-                    </ul>
-                </div>    
-        </nav>
-    </section>
+
+<h2>Interactive School Map</h2>
+<p>Tap a building or select your current location.</p>
+
+<!-- LOCATION TRACKER -->
+<p><strong>I am currently at:</strong></p>
+<select onchange="setLocation(this.value)">
+  <option value="">-- Select location --</option>
+  <option value="library">Library</option>
+  <option value="science">Science Building</option>
+</select>
+
+<!-- MAP IMAGE -->
+<img src="school-map.png" usemap="#schoolmap" id="mapImage">
+
+<map name="schoolmap">
+  <!-- Adjust coords based on your image -->
+  <area shape="rect" coords="50,50,200,150" onclick="showInfo('library')">
+  <area shape="rect" coords="250,50,400,150" onclick="showInfo('science')">
+</map>
+
+<!-- INFORMATION BOXES -->
+<div id="library" class="info-box">
+  <h3>Library</h3>
+  <p>This area is used for reading, studying, and research.</p>
+</div>
+
+<div id="science" class="info-box">
+  <h3>Science Building</h3>
+  <p>This building contains science classrooms and laboratories.</p>
+</div>
+
+<div id="tracker" class="info-box">
+  <h3>Current Location</h3>
+  <p id="locationText"></p>
+</div>
+
+<script>
+  function showInfo(place) {
+    hideAll();
+    document.getElementById(place).style.display = "block";
+  }
+
+  function setLocation(place) {
+    if (place === "") return;
+
+    hideAll();
+    document.getElementById("tracker").style.display = "block";
+    document.getElementById("locationText").innerText =
+      "You are currently at the " + place + ".";
+  }
+
+  function hideAll() {
+    document.querySelectorAll('.info-box').forEach(box => {
+      box.style.display = "none";
+    });
+  }
+</script>
+
 </body>
 </html>
