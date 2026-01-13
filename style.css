@@ -118,3 +118,56 @@ nav image {
     width: 100%;
     font-family: 'Times New Roman', Times, serif;
 }
+
+/*------------------- about us page -------------------*/
+.sub-header {
+  height: 40vh;
+  width: 100%;
+  background-image: linear-gradient(rgba(4,9,30,0.7), rgba(4,9,30,0.7)),url("photo/mnshsphoto1.jpg");
+  background-position: center;
+  background-size: cover;
+  text-align: center;
+  color: wheat
+}
+
+.about-us {
+  width: 80%;
+  margin: auto;
+  padding-top: 80px;
+  padding-bottom:  50px; ;
+}
+
+.picture-of-facilities {
+   flex-basis: 48%;
+   padding: 30px 2px;
+}
+
+.about-content{
+  flex-basis: 48%;
+  padding: 30px 2px;
+}
+
+.about-content image {
+  width: 100%;
+}
+
+.about-content h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.about-content p {
+  padding: 15px 0 25px;
+}
+
+.red-btn {
+  border: 1px solid rgb(8, 139, 85);
+  background-color:transparent;
+  color: rgb(7, 68, 43);
+}
+
+.red-btn:hover {
+  background-color: rgb(59, 235, 162);
+  color: rgb(3, 12, 102);
+  transition: 0.5s;
+}
