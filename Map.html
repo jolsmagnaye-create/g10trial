@@ -1,42 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Interactive School Map</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive School Map</title>
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 10px;
-      text-align: center;
-    }
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 10px;
+  }
 
-    img {
-      max-width: 100%;
-      height: auto;
-      border: 1px solid #ccc;
-    }
+  img {
+    max-width: 100%;
+    height: auto;
+    border: 2px solid #ccc;
+  }
 
-    select {
-      padding: 8px;
-      margin: 10px 0;
-      font-size: 16px;
-    }
+  select {
+    padding: 8px;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
 
-    .info-box {
-      display: none;
-      margin-top: 15px;
-      padding: 15px;
-      border: 1px solid #aaa;
-      border-radius: 5px;
-      background-color: #f9f9f9;
-    }
-
-    .highlight {
-      outline: 4px solid #4CAF50;
-    }
-  </style>
+  .info-box {
+    display: none;
+    margin: 15px auto;
+    padding: 15px;
+    max-width: 600px;
+    border: 1px solid #aaa;
+    background-color: #f9f9f9;
+    border-radius: 6px;
+  }
+</style>
 </head>
 
 <body>
@@ -48,28 +45,70 @@
 <p><strong>I am currently at:</strong></p>
 <select onchange="setLocation(this.value)">
   <option value="">-- Select location --</option>
+  <option value="court">Court</option>
   <option value="library">Library</option>
-  <option value="science">Science Building</option>
+  <option value="canteen">Canteen</option>
+  <option value="jhs">JHS Court</option>
+  <option value="parking">Parking Area</option>
 </select>
 
 <!-- MAP IMAGE -->
-<img src="school-map.png" usemap="#schoolmap" id="mapImage">
+<img src="photo/school-map.png.png" usemap="#schoolmap">
 
 <map name="schoolmap">
-  <!-- Adjust coords based on your image -->
-  <area shape="rect" coords="50,50,200,150" onclick="showInfo('library')">
-  <area shape="rect" coords="250,50,400,150" onclick="showInfo('science')">
+
+  <!-- COURT -->
+  <area shape="rect"
+        coords="100,200,500,600"
+        onclick="showInfo('court')">
+
+  <!-- LIBRARY -->
+  <area shape="rect"
+        coords="300,100,450,220"
+        onclick="showInfo('library')">
+
+  <!-- CANTEEN -->
+  <area shape="rect"
+        coords="900,200,1100,350"
+        onclick="showInfo('canteen')">
+
+  <!-- JHS COURT -->
+  <area shape="rect"
+        coords="950,300,1300,650"
+        onclick="showInfo('jhs')">
+
+  <!-- PARKING -->
+  <area shape="rect"
+        coords="50,50,200,200"
+        onclick="showInfo('parking')">
+
 </map>
 
 <!-- INFORMATION BOXES -->
-<div id="library" class="info-box">
-  <h3>Library</h3>
-  <p>This area is used for reading, studying, and research.</p>
+
+<div id="court" class="info-box">
+  <h3>Court</h3>
+  <p>Main open area used for assemblies, sports, and school events.</p>
 </div>
 
-<div id="science" class="info-box">
-  <h3>Science Building</h3>
-  <p>This building contains science classrooms and laboratories.</p>
+<div id="library" class="info-box">
+  <h3>Library</h3>
+  <p>A quiet place for reading, studying, and research.</p>
+</div>
+
+<div id="canteen" class="info-box">
+  <h3>Canteen</h3>
+  <p>Area where students can buy food and eat during breaks.</p>
+</div>
+
+<div id="jhs" class="info-box">
+  <h3>JHS Court</h3>
+  <p>Activity area primarily used by Junior High School students.</p>
+</div>
+
+<div id="parking" class="info-box">
+  <h3>Parking Area</h3>
+  <p>Designated area for staff and visitor parking.</p>
 </div>
 
 <div id="tracker" class="info-box">
@@ -78,25 +117,24 @@
 </div>
 
 <script>
-  function showInfo(place) {
-    hideAll();
-    document.getElementById(place).style.display = "block";
-  }
+function showInfo(place) {
+  hideAll();
+  document.getElementById(place).style.display = "block";
+}
 
-  function setLocation(place) {
-    if (place === "") return;
+function setLocation(place) {
+  if (place === "") return;
+  hideAll();
+  document.getElementById("tracker").style.display = "block";
+  document.getElementById("locationText").innerText =
+    "You are currently at the " + place + ".";
+}
 
-    hideAll();
-    document.getElementById("tracker").style.display = "block";
-    document.getElementById("locationText").innerText =
-      "You are currently at the " + place + ".";
-  }
-
-  function hideAll() {
-    document.querySelectorAll('.info-box').forEach(box => {
-      box.style.display = "none";
-    });
-  }
+function hideAll() {
+  document.querySelectorAll('.info-box').forEach(box => {
+    box.style.display = "none";
+  });
+}
 </script>
 
 </body>
