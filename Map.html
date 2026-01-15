@@ -1,141 +1,885 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Interactive School Map</title>
-
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    margin: 10px;
-  }
-
-  img {
-    max-width: 100%;
-    height: auto;
-    border: 2px solid #ccc;
-  }
-
-  select {
-    padding: 8px;
-    font-size: 16px;
-    margin-bottom: 10px;
-  }
-
-  .info-box {
-    display: none;
-    margin: 15px auto;
-    padding: 15px;
-    max-width: 600px;
-    border: 1px solid #aaa;
-    background-color: #f9f9f9;
-    border-radius: 6px;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive School Map</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .help-tracker {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        .help-tracker:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+        .help-tracker .icon {
+            font-size: 28px;
+        }
+        .help-panel {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            width: 320px;
+            max-height: 500px;
+            overflow-y: auto;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+            display: none;
+            z-index: 999;
+            animation: slideUp 0.3s ease;
+        }
+        .help-panel.active {
+            display: block;
+        }
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .help-panel h3 {
+            margin-top: 0;
+            color: #667eea;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        .help-section {
+            margin: 15px 0;
+        }
+        .help-section h4 {
+            color: #764ba2;
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+        .help-section p {
+            margin: 5px 0;
+            line-height: 1.6;
+            color: #555;
+        }
+        .help-tip {
+            background: #f0f4ff;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 3px solid #667eea;
+        }
+        .search-container {
+            margin-bottom: 20px;
+        }
+        .search-box {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        .search-box:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.2);
+        }
+        .stats-bar {
+            display: flex;
+            justify-content: space-around;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            color: white;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        .locator-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #667eea;
+        }
+        .locator-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .locator-header h3 {
+            margin: 0;
+            color: #667eea;
+        }
+        .locator-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .location-select {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px 15px;
+            font-size: 14px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        .location-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.2);
+        }
+        .find-path-btn, .reset-btn {
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .find-path-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .find-path-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        .find-path-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .reset-btn {
+            background: #f44336;
+            color: white;
+        }
+        .reset-btn:hover {
+            background: #d32f2f;
+        }
+        .path-info {
+            margin-top: 15px;
+            padding: 12px;
+            background: #e8f4f8;
+            border-radius: 8px;
+            border-left: 4px solid #2196F3;
+            display: none;
+        }
+        .path-info.active {
+            display: block;
+        }
+        .path-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .path-line {
+            stroke: #ff4757;
+            stroke-width: 4;
+            fill: none;
+            stroke-dasharray: 10, 5;
+            animation: dashAnimation 1s linear infinite;
+        }
+        .path-marker {
+            fill: #ff4757;
+        }
+        @keyframes dashAnimation {
+            to {
+                stroke-dashoffset: -15;
+            }
+        }
+        .map-container {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+        .map-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .info-panel {
+            margin-top: 20px;
+            padding: 20px;
+            background: #e8f4f8;
+            border-radius: 8px;
+            border-left: 4px solid #2196F3;
+            display: none;
+        }
+        .info-panel.active {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .info-panel h2 {
+            margin-top: 0;
+            color: #1976D2;
+        }
+        .info-panel .details {
+            line-height: 1.6;
+        }
+        .close-btn {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            float: right;
+        }
+        .close-btn:hover {
+            background: #d32f2f;
+        }
+        area {
+            cursor: pointer;
+        }
+        .instructions {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #ffc107;
+        }
+    </style>
 </head>
-
 <body>
+    <div class="container">
+        <h1>🏫 School Campus Map</h1>
+        <p class="subtitle">Click on any room or area to explore</p>
+        
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-number" id="roomsViewed">0</div>
+                <div class="stat-label">Rooms Explored</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="clickCount">0</div>
+                <div class="stat-label">Total Clicks</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="visitTime">0:00</div>
+                <div class="stat-label">Time Spent</div>
+            </div>
+        </div>
 
-<h2>Interactive School Map</h2>
-<p>Tap a building or select your current location.</p>
+        <div class="search-container">
+            <input type="text" class="search-box" id="searchBox" placeholder="🔍 Search for a room or facility...">
+        </div>
 
-<!-- LOCATION TRACKER -->
-<p><strong>I am currently at:</strong></p>
-<select onchange="setLocation(this.value)">
-  <option value="">-- Select location --</option>
-  <option value="court">Court</option>
-  <option value="library">Library</option>
-  <option value="canteen">Canteen</option>
-  <option value="jhs">JHS Court</option>
-  <option value="parking">Parking Area</option>
-</select>
+        <div class="locator-container">
+            <div class="locator-header">
+                <span style="font-size: 24px;">📍</span>
+                <h3>Find Your Way</h3>
+            </div>
+            <div class="locator-controls">
+                <select class="location-select" id="currentLocation">
+                    <option value="">Where are you now?</option>
+                    <option value="ENTRANCE">Main Entrance</option>
+                    <option value="GUARD HOUSE">Guard House</option>
+                    <option value="WAITING SHED">Waiting Shed</option>
+                    <option value="REGISTRAR AND ADMIN OFFICE">Registrar & Admin Office</option>
+                    <option value="PRINCIPAL AND PREFECT GUIDANCE">Principal's Office</option>
+                    <option value="FACULTY G12">Faculty G12</option>
+                    <option value="FACULTY G11">Faculty G11</option>
+                    <option value="SGH & LOST AND FOUND">SGH & Lost and Found</option>
+                    <option value="LIBRARY">Library</option>
+                    <option value="COMPUTER LAB">Computer Lab</option>
+                    <option value="SCIENCE LAB">Science Lab</option>
+                    <option value="CLINIC AND FOOD HUB">Clinic & Food Hub</option>
+                    <option value="CANTEEN">Canteen</option>
+                    <option value="GARDEN">Garden</option>
+                    <option value="LEFT BUILDING CLASSROOM">Left Building Classroom</option>
+                    <option value="RIGHT BUILDING CLASSROOM">Right Building Classroom</option>
+                    <option value="BACK BUILDING CLASSROOM">Back Building Classroom</option>
+                    <option value="SHS COURT/STAGE">SHS Court/Stage</option>
+                    <option value="JHS COURT">JHS Court</option>
+                    <option value="SMAW WORKSHOP">SMAW Workshop</option>
+                    <option value="HOME ECONOMICS LAB">Home Economics Lab</option>
+                    <option value="FBS LAB">FBS Lab</option>
+                    <option value="EIM LAB">EIM Lab</option>
+                    <option value="CAREGIVING LAB">Caregiving Lab</option>
+                    <option value="COOP">Coop</option>
+                    <option value="SOUND ROOM">Sound Room</option>
+                </select>
+                
+                <select class="location-select" id="destinationLocation">
+                    <option value="">Where do you want to go?</option>
+                    <option value="REGISTRAR AND ADMIN OFFICE">Registrar & Admin Office</option>
+                    <option value="PRINCIPAL AND PREFECT GUIDANCE">Principal's Office</option>
+                    <option value="FACULTY G12">Faculty G12</option>
+                    <option value="FACULTY G11">Faculty G11</option>
+                    <option value="SGH & LOST AND FOUND">SGH & Lost and Found</option>
+                    <option value="LIBRARY">Library</option>
+                    <option value="COMPUTER LAB">Computer Lab</option>
+                    <option value="SCIENCE LAB">Science Lab</option>
+                    <option value="CLINIC AND FOOD HUB">Clinic & Food Hub</option>
+                    <option value="CANTEEN">Canteen</option>
+                    <option value="GARDEN">Garden</option>
+                    <option value="LEFT BUILDING CLASSROOM">Left Building Classroom</option>
+                    <option value="RIGHT BUILDING CLASSROOM">Right Building Classroom</option>
+                    <option value="BACK BUILDING CLASSROOM">Back Building Classroom</option>
+                    <option value="SHS COURT/STAGE">SHS Court/Stage</option>
+                    <option value="JHS COURT">JHS Court</option>
+                    <option value="SMAW WORKSHOP">SMAW Workshop</option>
+                    <option value="HOME ECONOMICS LAB">Home Economics Lab</option>
+                    <option value="FBS LAB">FBS Lab</option>
+                    <option value="EIM LAB">EIM Lab</option>
+                    <option value="CAREGIVING LAB">Caregiving Lab</option>
+                    <option value="COOP">Coop</option>
+                    <option value="SOUND ROOM">Sound Room</option>
+                    <option value="PUBLICATION">Publication Room</option>
+                    <option value="STORAGE 1">Storage 1</option>
+                    <option value="STORAGE 2">Storage 2</option>
+                </select>
+                
+                <button class="find-path-btn" id="findPathBtn" onclick="findPath()">
+                    🧭 Show Path
+                </button>
+                
+                <button class="reset-btn" id="resetBtn" onclick="resetPath()" style="display: none;">
+                    🔄 Reset
+                </button>
+            </div>
+            
+            <div class="path-info" id="pathInfo">
+                <strong>📍 Directions:</strong>
+                <p id="pathDescription"></p>
+            </div>
+        </div>
 
-<!-- MAP IMAGE -->
-<img src="photo/school-map.png.png" usemap="#schoolmap">
+        <div class="instructions">
+            <strong>📍 How to Use:</strong> Click on any room or area on the map to view details. Use the search box above to find specific locations. Click the help button in the bottom-right corner for more guidance!
+        </div>
 
-<map name="schoolmap">
+        <div class="map-container">
+            <svg class="path-svg" id="pathSvg"></svg>
+            <img src="photo/school-map.png.png" usemap="#image-map" alt="School Map">
+            
+            <map name="image-map">
+                <area alt="EIM LAB" title="EIM LAB" href="javascript:void(0)" onclick="showInfo('EIM LAB')" coords="486,670,732,714" shape="rect">
+                <area alt="CAREGIVING LAB" title="CAREGIVING LAB" href="javascript:void(0)" onclick="showInfo('CAREGIVING LAB')" coords="614,723,731,766" shape="rect">
+                <area alt="SHS COURT/STAGE" title="SHS COURT/STAGE" href="javascript:void(0)" onclick="showInfo('SHS COURT/STAGE')" coords="470,271,843,427" shape="rect">
+                <area alt="JHS COURT" title="JHS COURT" href="javascript:void(0)" onclick="showInfo('JHS COURT')" coords="912,387,1363,647" shape="rect">
+                <area alt="HOME ECONOMICS LAB" title="HOME ECONOMICS LAB" href="javascript:void(0)" onclick="showInfo('HOME ECONOMICS LAB')" coords="1031,173,1302,202" shape="rect">
+                <area alt="FBS LAB" title="FBS LAB" href="javascript:void(0)" onclick="showInfo('FBS LAB')" coords="1033,141,1304,170" shape="rect">
+                <area alt="PRINCIPAL AND PREFECT GUIDANCE" title="PRINCIPAL AND PREFECT GUIDANCE" href="javascript:void(0)" onclick="showInfo('PRINCIPAL AND PREFECT GUIDANCE')" coords="347,194,440,244" shape="rect">
+                <area alt="SGH & LOST AND FOUND" title="SGH & LOST AND FOUND" href="javascript:void(0)" onclick="showInfo('SGH & LOST AND FOUND')" coords="449,196,542,242" shape="rect">
+                <area alt="LIBRARY" title="LIBRARY" href="javascript:void(0)" onclick="showInfo('LIBRARY')" coords="551,196,643,241" shape="rect">
+                <area alt="CLINIC AND FOOD HUB" title="CLINIC AND FOOD HUB" href="javascript:void(0)" onclick="showInfo('CLINIC AND FOOD HUB')" coords="754,195,846,242" shape="rect">
+                <area alt="COMPUTER LAB" title="COMPUTER LAB" href="javascript:void(0)" onclick="showInfo('COMPUTER LAB')" coords="756,159,848,190" shape="rect">
+                <area alt="SCIENCE LAB" title="SCIENCE LAB" href="javascript:void(0)" onclick="showInfo('SCIENCE LAB')" coords="550,160,744,185" shape="rect">
+                <area alt="FACULTY G12" title="FACULTY G12" href="javascript:void(0)" onclick="showInfo('FACULTY G12')" coords="450,160,546,189" shape="rect">
+                <area alt="REGISTRAR AND ADMIN OFFICE" title="REGISTRAR AND ADMIN OFFICE" href="javascript:void(0)" onclick="showInfo('REGISTRAR AND ADMIN OFFICE')" coords="346,159,442,186" shape="rect">
+                <area alt="PUBLICATION" title="PUBLICATION" href="javascript:void(0)" onclick="showInfo('PUBLICATION')" coords="755,59,846,118" shape="rect">
+                <area alt="STORAGE 1" title="STORAGE 1" href="javascript:void(0)" onclick="showInfo('STORAGE 1')" coords="551,58,744,119" shape="rect">
+                <area alt="STORAGE 2" title="STORAGE 2" href="javascript:void(0)" onclick="showInfo('STORAGE 2')" coords="270,554,365,612" shape="rect">
+                <area alt="COOP" title="COOP" href="javascript:void(0)" onclick="showInfo('COOP')" coords="224,450,262,487" shape="rect">
+                <area alt="GUARD HOUSE" title="GUARD HOUSE" href="javascript:void(0)" onclick="showInfo('GUARD HOUSE')" coords="164,349,235,409" shape="rect">
+                <area alt="UTILITY" title="UTILITY" href="javascript:void(0)" onclick="showInfo('UTILITY')" coords="855,192,892,241" shape="rect">
+                <area alt="FACULTY G11" title="FACULTY G11" href="javascript:void(0)" onclick="showInfo('FACULTY G11')" coords="582,450,676,480" shape="rect">
+                <area alt="1ST FLOOR LEFT BUILDING CLASSROOM" title="1ST FLOOR LEFT BUILDING CLASSROOM" href="javascript:void(0)" onclick="showInfo('1ST FLOOR LEFT BUILDING CLASSROOM')" coords="651,197,746,229" shape="rect">
+                <area alt="DUMPSTER" title="DUMPSTER" href="javascript:void(0)" onclick="showInfo('DUMPSTER')" coords="159,71,341,0" shape="rect">
+                <area alt="RIGHT BUILDING CLASSROOM" title="RIGHT BUILDING CLASSROOM" href="javascript:void(0)" onclick="showInfo('RIGHT BUILDING CLASSROOM')" coords="272,452,273,549,377,549,377,611,676,609,680,488,577,488,577,453" shape="poly">
+                <area alt="LEFT BUILDING CLASSROOM" title="LEFT BUILDING CLASSROOM" href="javascript:void(0)" onclick="showInfo('LEFT BUILDING CLASSROOM')" coords="350,60,541,63,541,123,845,126,844,150,348,156" shape="poly">
+                <area alt="CANTEEN" title="CANTEEN" href="javascript:void(0)" onclick="showInfo('CANTEEN')" coords="1032,207,1034,236,1184,239,1185,349,1220,349,1221,377,1364,376,1361,238,1303,242,1302,207" shape="poly">
+                <area alt="GARDEN" title="GARDEN" href="javascript:void(0)" onclick="showInfo('GARDEN')" coords="895,205,981,203,981,103,1026,102,1028,72,1302,72,1306,105,1329,103,1331,237,1364,234,1364,61,891,58" shape="poly">
+                <area alt="WAITING SHED" title="WAITING SHED" href="javascript:void(0)" onclick="showInfo('WAITING SHED')" coords="66,354,127,492" shape="rect">
+                <area alt="SOUND ROOM" title="SOUND ROOM" href="javascript:void(0)" onclick="showInfo('SOUND ROOM')" coords="686,452,723,487" shape="rect">
+                <area alt="SMAW WORKSHOP" title="SMAW WORKSHOP" href="javascript:void(0)" onclick="showInfo('SMAW WORKSHOP')" coords="727,464,728,662,903,665,905,461,808,460" shape="poly">
+                <area alt="BACK BUILDING CLASSROOM" title="BACK BUILDING CLASSROOM" href="javascript:void(0)" onclick="showInfo('BACK BUILDING CLASSROOM')" coords="483,721,603,762" shape="rect">
+            </map>
+        </div>
 
-  <!-- COURT -->
-  <area shape="rect"
-        coords="100,200,500,600"
-        onclick="showInfo('court')">
+        <div id="infoPanel" class="info-panel">
+            <button class="close-btn" onclick="closeInfo()">✕ Close</button>
+            <h2 id="infoTitle"></h2>
+            <div class="details" id="infoDetails"></div>
+        </div>
+    </div>
 
-  <!-- LIBRARY -->
-  <area shape="rect"
-        coords="300,100,450,220"
-        onclick="showInfo('library')">
+    <!-- Help Tracker -->
+    <div class="help-tracker" onclick="toggleHelp()">
+        <span class="icon">❓</span>
+    </div>
 
-  <!-- CANTEEN -->
-  <area shape="rect"
-        coords="900,200,1100,350"
-        onclick="showInfo('canteen')">
+    <div class="help-panel" id="helpPanel">
+        <h3>🆘 Help & Guide</h3>
+        
+        <div class="help-section">
+            <h4>🗺️ Navigation Tips</h4>
+            <p>• Click any colored area on the map to view room details</p>
+            <p>• Hover over areas to see tooltips</p>
+            <p>• Use the search box to quickly find locations</p>
+        </div>
 
-  <!-- JHS COURT -->
-  <area shape="rect"
-        coords="950,300,1300,650"
-        onclick="showInfo('jhs')">
+        <div class="help-section">
+            <h4>📊 Your Progress</h4>
+            <p>Track your exploration at the top of the page:</p>
+            <p>• <strong>Rooms Explored:</strong> Unique rooms you've clicked</p>
+            <p>• <strong>Total Clicks:</strong> How many times you've interacted</p>
+            <p>• <strong>Time Spent:</strong> Duration on the map</p>
+        </div>
 
-  <!-- PARKING -->
-  <area shape="rect"
-        coords="50,50,200,200"
-        onclick="showInfo('parking')">
+        <div class="help-tip">
+            <strong>💡 Pro Tip:</strong> Try to explore all rooms to get familiar with the campus layout!
+        </div>
 
-</map>
+        <div class="help-section">
+            <h4>🧭 Pathfinding Feature</h4>
+            <p>Use the "Find Your Way" tool to get directions:</p>
+            <p>• Select your current location from the first dropdown</p>
+            <p>• Select your destination from the second dropdown</p>
+            <p>• Click "Show Path" to see an animated route</p>
+            <p>• Green marker = Start, Red pulsing marker = Destination</p>
+            <p>• Click "Reset" to clear the path and start over</p>
+        </div>
 
-<!-- INFORMATION BOXES -->
+        <div class="help-section">
+            <h4>📱 Mobile Users</h4>
+            <p>Pinch to zoom on the map for better viewing on small screens.</p>
+        </div>
 
-<div id="court" class="info-box">
-  <h3>Court</h3>
-  <p>Main open area used for assemblies, sports, and school events.</p>
-</div>
+        <div class="help-section">
+            <h4>❓ Need More Help?</h4>
+            <p>Contact the administration office or visit the guard house for assistance.</p>
+        </div>
+    </div>
 
-<div id="library" class="info-box">
-  <h3>Library</h3>
-  <p>A quiet place for reading, studying, and research.</p>
-</div>
+    <script>
+        // Room information database
+        const roomInfo = {
+            'COMPUTER LAB': {
+                description: 'Provides students with access to computers for digital learning, research, and technical skill development.'
+            },
+            'FACULTY G12': {
+                description: 'Serves as a workspace for teachers and student leaders to coordinate academic and school activities.'
+            },
+            'FACULTY G11': {
+                description: 'Serves as a workspace for teachers and student leaders to coordinate academic and school activities.'
+            },
+            'REGISTRAR AND ADMIN OFFICE': {
+                description: 'Handles student records, enrollment, and other academic documentation. Manages administrative tasks and supports overall school operations.'
+            },
+            'PRINCIPAL AND PREFECT GUIDANCE': {
+                description: 'Oversees school administration, discipline, and student guidance.'
+            },
+            'PUBLICATION': {
+                description: 'A creative space where students produce school publications and media materials.'
+            },
+            'STORAGE 1': {
+                description: 'Used for the safekeeping and organization of school supplies and equipment.'
+            },
+            'STORAGE 2': {
+                description: 'Used for the safekeeping and organization of school supplies and equipment.'
+            },
+            'SCIENCE LAB': {
+                description: 'Allows students to conduct experiments and apply scientific concepts through hands-on learning.'
+            },
+            'LIBRARY': {
+                description: 'Provides books and learning resources in a quiet environment for study and research.'
+            },
+            'SOUND ROOM': {
+                description: 'Houses audio equipment used for school programs, events, and announcements.'
+            },
+            'COOP': {
+                description: 'Offers affordable school supplies and basic necessities for students.'
+            },
+            'CAREGIVING LAB': {
+                description: 'Equipped for hands-on training in caregiving and basic healthcare practices.'
+            },
+            'EIM LAB': {
+                description: 'Supports practical learning in Electrical Installation and Maintenance.'
+            },
+            'CANTEEN': {
+                description: 'Serves food and refreshments to students and staff during school hours.'
+            },
+            'SGH & LOST AND FOUND': {
+                description: 'A designated area where lost items are kept and returned to their owners. Serves as a workspace for student government.'
+            },
+            'SMAW WORKSHOP': {
+                description: 'Provides tools and space for hands-on Shielded Metal Arc Welding training.'
+            },
+            'HOME ECONOMICS LAB': {
+                description: 'Develops practical skills in cooking, household management, and related activities.'
+            },
+            'FBS LAB': {
+                description: 'Used for training in food and beverage service, hospitality, and customer service skills.'
+            },
+            'CLINIC AND FOOD HUB': {
+                description: 'Provides basic medical care and first aid for students and staff. A space dedicated to food preparation, service, and food-related school activities.'
+            },
+            'UTILITY': {
+                description: 'Ensures maintenance and proper functioning of school facilities.'
+            },
+            'JHS COURT': {
+                description: 'Multi-purpose court for sports, physical education, and school events.'
+            },
+            'SHS COURT/STAGE': {
+                description: 'Used for assemblies, programs, sporting events, and performances.'
+            },
+            'GARDEN': {
+                description: 'A green space for relaxation, environmental activities, and outdoor learning.'
+            },
+            'GUARD HOUSE': {
+                description: 'Security post that monitors campus entry and ensures the safety of students and staff.'
+            },
+            'WAITING SHED': {
+                description: 'A covered area where students and visitors can wait for transportation or shelter from weather.'
+            },
+            '1ST FLOOR LEFT BUILDING CLASSROOM': {
+                description: 'Regular classrooms for academic instruction and learning activities.'
+            },
+            'LEFT BUILDING CLASSROOM': {
+                description: 'Regular classrooms for academic instruction and learning activities.'
+            },
+            'RIGHT BUILDING CLASSROOM': {
+                description: 'Regular classrooms for academic instruction and learning activities.'
+            },
+            'BACK BUILDING CLASSROOM': {
+                description: 'Regular classrooms for academic instruction and learning activities.'
+            }
+        };
 
-<div id="canteen" class="info-box">
-  <h3>Canteen</h3>
-  <p>Area where students can buy food and eat during breaks.</p>
-</div>
+        // Tracking variables
+        let roomsViewed = new Set();
+        let clickCount = 0;
+        let startTime = Date.now();
+        let timerInterval;
 
-<div id="jhs" class="info-box">
-  <h3>JHS Court</h3>
-  <p>Activity area primarily used by Junior High School students.</p>
-</div>
+        // Location coordinates (center points of each area)
+        const locationCoords = {
+            'ENTRANCE': {x: 100, y: 300},
+            'GUARD HOUSE': {x: 200, y: 380},
+            'WAITING SHED': {x: 97, y: 420},
+            'REGISTRAR AND ADMIN OFFICE': {x: 394, y: 172},
+            'PRINCIPAL AND PREFECT GUIDANCE': {x: 394, y: 219},
+            'FACULTY G12': {x: 498, y: 174},
+            'FACULTY G11': {x: 629, y: 465},
+            'SGH & LOST AND FOUND': {x: 495, y: 219},
+            'LIBRARY': {x: 597, y: 219},
+            'COMPUTER LAB': {x: 802, y: 174},
+            'SCIENCE LAB': {x: 647, y: 172},
+            'CLINIC AND FOOD HUB': {x: 800, y: 219},
+            'CANTEEN': {x: 1183, y: 276},
+            'GARDEN': {x: 1127, y: 150},
+            'LEFT BUILDING CLASSROOM': {x: 596, y: 109},
+            'RIGHT BUILDING CLASSROOM': {x: 475, y: 530},
+            'BACK BUILDING CLASSROOM': {x: 543, y: 741},
+            'SHS COURT/STAGE': {x: 656, y: 349},
+            'JHS COURT': {x: 1137, y: 517},
+            'SMAW WORKSHOP': {x: 815, y: 563},
+            'HOME ECONOMICS LAB': {x: 1166, y: 187},
+            'FBS LAB': {x: 1168, y: 155},
+            'EIM LAB': {x: 609, y: 692},
+            'CAREGIVING LAB': {x: 672, y: 744},
+            'COOP': {x: 243, y: 468},
+            'SOUND ROOM': {x: 704, y: 469},
+            'PUBLICATION': {x: 800, y: 88},
+            'STORAGE 1': {x: 647, y: 88},
+            'STORAGE 2': {x: 317, y: 583},
+            'UTILITY': {x: 873, y: 216}
+        };
 
-<div id="parking" class="info-box">
-  <h3>Parking Area</h3>
-  <p>Designated area for staff and visitor parking.</p>
-</div>
+        // Pathfinding function
+        function findPath() {
+            const start = document.getElementById('currentLocation').value;
+            const end = document.getElementById('destinationLocation').value;
+            
+            if (!start || !end) {
+                alert('Please select both your current location and destination!');
+                return;
+            }
+            
+            if (start === end) {
+                alert('You are already at your destination!');
+                return;
+            }
+            
+            // Clear any existing path
+            resetPath();
+            
+            // Get coordinates
+            const startCoords = locationCoords[start];
+            const endCoords = locationCoords[end];
+            
+            if (!startCoords || !endCoords) {
+                alert('Location coordinates not found. Please try another route.');
+                return;
+            }
+            
+            // Draw path
+            drawPath(startCoords, endCoords);
+            
+            // Show path info
+            const pathInfo = document.getElementById('pathInfo');
+            const pathDescription = document.getElementById('pathDescription');
+            pathDescription.textContent = `From ${start} to ${end}. Follow the red animated line on the map.`;
+            pathInfo.classList.add('active');
+            
+            // Show reset button
+            document.getElementById('resetBtn').style.display = 'inline-block';
+        }
 
-<div id="tracker" class="info-box">
-  <h3>Current Location</h3>
-  <p id="locationText"></p>
-</div>
+        function drawPath(start, end) {
+            const svg = document.getElementById('pathSvg');
+            const img = document.querySelector('.map-container img');
+            
+            // Get actual image dimensions
+            const imgRect = img.getBoundingClientRect();
+            const imgWidth = img.offsetWidth;
+            const imgHeight = img.offsetHeight;
+            
+            // Set SVG viewBox to match image
+            svg.setAttribute('viewBox', `0 0 ${imgWidth} ${imgHeight}`);
+            
+            // Calculate scale factor (map coordinates are based on original 1366x768 image)
+            const scaleX = imgWidth / 1366;
+            const scaleY = imgHeight / 768;
+            
+            // Scale coordinates
+            const startX = start.x * scaleX;
+            const startY = start.y * scaleY;
+            const endX = end.x * scaleX;
+            const endY = end.y * scaleY;
+            
+            // Create path with waypoints for more natural routing
+            const midX = (startX + endX) / 2;
+            const midY = (startY + endY) / 2;
+            
+            // Draw line
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            line.setAttribute('class', 'path-line');
+            line.setAttribute('d', `M ${startX} ${startY} Q ${midX} ${midY} ${endX} ${endY}`);
+            svg.appendChild(line);
+            
+            // Draw start marker
+            const startMarker = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            startMarker.setAttribute('class', 'path-marker');
+            startMarker.setAttribute('cx', startX);
+            startMarker.setAttribute('cy', startY);
+            startMarker.setAttribute('r', 8 * Math.min(scaleX, scaleY));
+            startMarker.setAttribute('fill', '#4CAF50');
+            svg.appendChild(startMarker);
+            
+            // Draw end marker
+            const endMarker = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            endMarker.setAttribute('class', 'path-marker');
+            endMarker.setAttribute('cx', endX);
+            endMarker.setAttribute('cy', endY);
+            endMarker.setAttribute('r', 8 * Math.min(scaleX, scaleY));
+            endMarker.setAttribute('fill', '#f44336');
+            svg.appendChild(endMarker);
+            
+            // Add pulsing animation to end marker
+            const pulse = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            pulse.setAttribute('cx', endX);
+            pulse.setAttribute('cy', endY);
+            pulse.setAttribute('r', 8 * Math.min(scaleX, scaleY));
+            pulse.setAttribute('fill', 'none');
+            pulse.setAttribute('stroke', '#f44336');
+            pulse.setAttribute('stroke-width', '2');
+            const animate = document.createElementNS('http://www.w3.org/2000/svg', 'animate');
+            animate.setAttribute('attributeName', 'r');
+            animate.setAttribute('from', 8 * Math.min(scaleX, scaleY));
+            animate.setAttribute('to', 20 * Math.min(scaleX, scaleY));
+            animate.setAttribute('dur', '1.5s');
+            animate.setAttribute('repeatCount', 'indefinite');
+            const animateOpacity = document.createElementNS('http://www.w3.org/2000/svg', 'animate');
+            animateOpacity.setAttribute('attributeName', 'opacity');
+            animateOpacity.setAttribute('from', '1');
+            animateOpacity.setAttribute('to', '0');
+            animateOpacity.setAttribute('dur', '1.5s');
+            animateOpacity.setAttribute('repeatCount', 'indefinite');
+            pulse.appendChild(animate);
+            pulse.appendChild(animateOpacity);
+            svg.appendChild(pulse);
+        }
 
-<script>
-function showInfo(place) {
-  hideAll();
-  document.getElementById(place).style.display = "block";
-}
+        function resetPath() {
+            // Clear SVG
+            const svg = document.getElementById('pathSvg');
+            svg.innerHTML = '';
+            
+            // Hide path info
+            document.getElementById('pathInfo').classList.remove('active');
+            
+            // Hide reset button
+            document.getElementById('resetBtn').style.display = 'none';
+            
+            // Reset dropdowns
+            document.getElementById('currentLocation').value = '';
+            document.getElementById('destinationLocation').value = '';
+        }
 
-function setLocation(place) {
-  if (place === "") return;
-  hideAll();
-  document.getElementById("tracker").style.display = "block";
-  document.getElementById("locationText").innerText =
-    "You are currently at the " + place + ".";
-}
+        // Initialize timer
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                const minutes = Math.floor(elapsed / 60);
+                const seconds = elapsed % 60;
+                document.getElementById('visitTime').textContent = 
+                    `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
 
-function hideAll() {
-  document.querySelectorAll('.info-box').forEach(box => {
-    box.style.display = "none";
-  });
-}
-</script>
+        // Update stats
+        function updateStats(roomName) {
+            roomsViewed.add(roomName);
+            clickCount++;
+            
+            document.getElementById('roomsViewed').textContent = roomsViewed.size;
+            document.getElementById('clickCount').textContent = clickCount;
+        }
 
+        // Toggle help panel
+        function toggleHelp() {
+            const helpPanel = document.getElementById('helpPanel');
+            helpPanel.classList.toggle('active');
+        }
+
+        // Search functionality
+        const searchBox = document.getElementById('searchBox');
+        searchBox.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            if (searchTerm.length > 0) {
+                const matches = Object.keys(roomInfo).filter(room => 
+                    room.toLowerCase().includes(searchTerm)
+                );
+                
+                if (matches.length > 0) {
+                    console.log('Found rooms:', matches);
+                    // You can add a dropdown here to show results
+                }
+            }
+        });
+
+        searchBox.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const searchTerm = e.target.value.toLowerCase();
+                const match = Object.keys(roomInfo).find(room => 
+                    room.toLowerCase().includes(searchTerm)
+                );
+                
+                if (match) {
+                    showInfo(match);
+                    searchBox.value = '';
+                } else {
+                    alert('Room not found. Try keywords like "lab", "classroom", "canteen", etc.');
+                }
+            }
+        });
+
+        function showInfo(roomName) {
+            const panel = document.getElementById('infoPanel');
+            const title = document.getElementById('infoTitle');
+            const details = document.getElementById('infoDetails');
+
+            // Update tracking
+            updateStats(roomName);
+
+            title.textContent = roomName;
+
+            const info = roomInfo[roomName];
+            if (info) {
+                details.innerHTML = `
+                    <p><strong>📋 Description:</strong> ${info.description}</p>
+                `;
+            } else {
+                details.innerHTML = `
+                    <p><strong>📋 Description:</strong> Information about ${roomName}</p>
+                    <p><em>Details coming soon. Please contact the administration office for more information.</em></p>
+                `;
+            }
+
+            panel.classList.add('active');
+            panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function closeInfo() {
+            const panel = document.getElementById('infoPanel');
+            panel.classList.remove('active');
+        }
+
+        // Start the timer when page loads
+        startTimer();
+
+        // Close help panel when clicking outside
+        document.addEventListener('click', (e) => {
+            const helpPanel = document.getElementById('helpPanel');
+            const helpTracker = document.querySelector('.help-tracker');
+            
+            if (!helpPanel.contains(e.target) && !helpTracker.contains(e.target)) {
+                helpPanel.classList.remove('active');
+            }
+        });
+    </script>
 </body>
 </html>
