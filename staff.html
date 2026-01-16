@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff - MNSHS</title>
+    <style>
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: sans-serif;
+            background-color: #fff;
+            padding-top: 80px;
+        }
+
+        /* Navigation Styles */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: 500;
+            transition: color 0.3s, background 0.3s;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+
+        .nav-links li a:hover,
+        .nav-links li a.active {
+            color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .burger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .burger div {
+            width: 25px;
+            height: 3px;
+            background: white;
+            transition: all 0.3s;
+            border-radius: 3px;
+        }
+
+        /* Burger Animation */
+        .burger.active .line1 {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .burger.active .line2 {
+            opacity: 0;
+        }
+
+        .burger.active .line3 {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                right: -100%;
+                top: 80px;
+                flex-direction: column;
+                background: rgba(0, 0, 0, 0.95);
+                width: 100%;
+                text-align: center;
+                transition: right 0.3s;
+                padding: 30px 0;
+                gap: 0;
+            }
+
+            .nav-links li {
+                margin: 15px 0;
+            }
+
+            .nav-links li a {
+                font-size: 1.3em;
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .burger {
+                display: flex;
+            }
+        }
+
+        /* Sub Header */
+        .sub-header {
+            height: 40vh;
+            width: 100%;
+            background: linear-gradient(rgba(4,9,30,0.7), rgba(4,9,30,0.7)),
+                        url("photo/mnshsphoto1.jpg") center/cover no-repeat;
+            text-align: center;
+            color: wheat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .sub-header h1 {
+            margin: 10px 0;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+        }
+
+        .mnshs {
+            font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+            font-weight: bold;
+            color: whitesmoke;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        /* Staff Section */
+        .staff-container {
+            width: 85%;
+            margin: 60px auto;
+            padding: 40px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            color: #333;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(135deg, rgb(8, 139, 85) 0%, rgb(7, 68, 43) 100%);
+            border-radius: 2px;
+        }
+
+        .staff-category {
+            margin: 60px 0;
+        }
+
+        .category-header {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(8, 139, 85, 0.08) 100%);
+            padding: 20px 30px;
+            border-left: 5px solid rgb(8, 139, 85);
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+
+        .category-header h2 {
+            color: rgb(8, 139, 85);
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .staff-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .staff-card {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 3px solid rgb(8, 139, 85);
+        }
+
+        .staff-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 25px rgba(8, 139, 85, 0.2);
+        }
+
+        .staff-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .staff-position {
+            color: rgb(8, 139, 85);
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Search Bar */
+        .search-container {
+            text-align: center;
+            margin: 40px auto;
+            max-width: 600px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-box:focus {
+            border-color: rgb(8, 139, 85);
+        }
+
+        /* Stats Section */
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin: 40px auto;
+            max-width: 1200px;
+            padding: 0 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(8, 139, 85, 0.1) 100%);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: rgb(8, 139, 85);
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: rgb(4, 9, 30);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+            font-family: 'Times New Roman', Times, serif;
+            margin-top: 60px;
+        }
+
+        .footer h4 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .staff-container {
+                width: 90%;
+            }
+
+            .staff-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-section {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="index.html" class="logo">
+            <img src="photo/NEw logo.png" alt="School Logo">
+        </a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="aboutpage.html">About</a></li>
+            <li><a href="Map.html">Map</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="staff.html" class="active">Staff</a></li>
+        </ul>
+        <div class="burger" id="burger">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
+    </nav>
+
+    <!-- Sub Header -->
+    <section class="sub-header">
+        <h1 class="mnshs">Morong National Senior High School</h1>
+        <h1>Our Dedicated Staff</h1>
+    </section>
+
+    <!-- Statistics Section -->
+    <div class="stats-section">
+        <div class="stat-card">
+            <div class="stat-number">58</div>
+            <div class="stat-label">Teaching Staff</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">6</div>
+            <div class="stat-label">Non-Teaching Staff</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">64</div>
+            <div class="stat-label">Total Faculty</div>
+        </div>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-container">
+        <input type="text" id="searchInput" class="search-box" placeholder="🔍 Search staff by name or position...">
+    </div>
+
+    <!-- Staff Container -->
+    <div class="staff-container">
+        <h1 class="section-title">Faculty & Staff Directory</h1>
+
+        <!-- Teaching Staff -->
+        <div class="staff-category">
+            <div class="category-header">
+                <h2>Teaching Staff</h2>
+            </div>
+            <div class="staff-grid" id="teachingStaff">
+                <div class="staff-card">
+                    <div class="staff-name">Cherry M. Aduan</div>
+                    <div class="staff-position">Master Teacher II</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Shereen C. Amoin</div>
+                    <div class="staff-position">Teacher II</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Maricel C. Andrade</div>
+                    <div class="staff-position">Master Teacher I</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Allan J. Arbado</div>
+                    <div class="staff-position">Teacher I</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Gerhart C. Balajadia</div>
+                    <div class="staff-position">Master Teacher I</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Sherdine D. Bautista</div>
+                    <div class="staff-position">Master Teacher II</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Irene A. Benaliza</div>
+                    <div class="staff-position">Teacher I</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Sunshine T. Bolire</div>
+                    <div class="staff-position">Teacher II</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Joy O. Bragais</div>
+                    <div class="staff-position">Teacher I</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Janel B. Briones</div>
+                    <div class="staff-position">Teacher II</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Earl Simonn R. Buenviaje</div>
+                    <div class="staff-position">Teacher I</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Irish May P. Castle</div>
+                    <div class="staff-position">Teacher II</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Jonathan R. Clemente</div>
+                    <div class="staff-position">Teacher II</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Ruben T. Columna Jr.</div>
+                    <div class="staff-position">Teacher III</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Aida R. Cruz</div>
+                    <div class="staff-position">Master Teacher I</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Joel P. De Leon</div>
+                    <div class="staff-position">Master Teacher II</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Venice S. Delos Santos</div>
+                    <div class="staff-position">Master Teacher II</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Thelma G. Dequina</div>
+                    <div class="staff-position">Teacher II</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Hazel B. Dolores</div>
+                    <div class="staff-position">Master Teacher II</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Eliezer A. Discutido</div>
+                    <div class="staff-position">Master Teacher I</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Len D. Fernando</div>
+                    <div class="staff-position">Master Teacher I</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Adonna P. Follosco</div>
+                    <div class="staff-position">Master Teacher I</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Gretchen F. Francisco</div>
+                    <div class="staff-position">Teacher II</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Freddie R. Garcia</div>
+                    <div class="staff-position">Master Teacher II</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Harvy P. Gellido</div>
+                    <div class="staff-position">Teacher II</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Mary Rose P. Gonzales</div>
+                    <div class="staff-position">Teacher II</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Chona R. Gutierrez</div>
+                    <div class="staff-position">Master Teacher I</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Mae Ann G. Lacbayo</div>
+                    <div class="staff-position">Teacher II</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Brian D. Lim</div>
+                    <div class="staff-position">Teacher I</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Christian E. Linga</div>
+                    <div class="staff-position">Teacher I</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Heidi Maeve D. Mendiola</div>
+                    <div class="staff-position">Teacher II</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Mischlaine Kelly D. Mobido</div>
+                    <div class="staff-position">Teacher I</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Joel P. Moriles</div>
+                    <div class="staff-position">Teacher I</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Ma Glinda N. Mosquera</div>
+                    <div class="staff-position">Teacher I</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Imelda V. Natividad</div>
+                    <div class="staff-position">Master Teacher I</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Henie T. Nuneza</div>
+                    <div class="staff-position">Teacher II</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Rowell V. Orca</div>
+                    <div class="staff-position">Master Teacher II</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Rickson S. Panguito</div>
+                    <div class="staff-position">Teacher I</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Dana Angeline A. Pinon</div>
+                    <div class="staff-position">Teacher II</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Ross Ann U. Ramos</div>
+                    <div class="staff-position">Teacher III</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Danica B. Ramos</div>
+                    <div class="staff-position">Teacher I</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Julie Ann R. Rio</div>
+                    <div class="staff-position">Teacher II</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Johmar C. Robles</div>
+                    <div class="staff-position">Master Teacher I</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Clarise M. San Juan</div>
+                    <div class="staff-position">Master Teacher II</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Ma. Niquesa Joy M. San Juan</div>
+                    <div class="staff-position">Teacher III</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Tomas C. Sto Tomas</div>
+                    <div class="staff-position">Teacher II</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Caselyn T. Roxas</div>
+                    <div class="staff-position">Master Teacher I</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Mel G. Tiratira</div>
+                    <div class="staff-position">Teacher I</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Kristine Joy D. Urriza</div>
+                    <div class="staff-position">Master Teacher I</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Jose John S. Vocal</div>
+                    <div class="staff-position">Teacher II</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Marjorie P. Flores</div>
+                    <div class="staff-position">Teacher II</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Nina Beatrice G. Dela Cruz</div>
+                    <div class="staff-position">Teacher I</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Donald R. Emmas</div>
+                    <div class="staff-position">Teacher I</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Ma. Katrina A. Guiterrez</div>
+                    <div class="staff-position">Teacher I</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Junielyn D. Manlincon</div>
+                    <div class="staff-position">Teacher I</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Jo Ann D. Martizano</div>
+                    <div class="staff-position">Teacher I</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Aileen G. Orense</div>
+                    <div class="staff-position">Teacher I</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Kent Ervin D. Perez</div>
+                    <div class="staff-position">Teacher I</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Karolina A. Mesa</div>
+                    <div class="staff-position">Teacher II</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Nicholas John F. Espiritu</div>
+                    <div class="staff-position">Teacher I</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Non-Teaching Staff -->
+        <div class="staff-category">
+            <div class="category-header">
+                <h2>Non-Teaching Staff</h2>
+            </div>
+            <div class="staff-grid" id="nonTeachingStaff">
+                <div class="staff-card">
+                    <div class="staff-name">Noralyn I. Carigo</div>
+                    <div class="staff-position">Principal II</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Ervin R. De Roses</div>
+                    <div class="staff-position">AO II</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Frances Beane E. Corbilla</div>
+                    <div class="staff-position">Registrar I</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Maureen Marl DL. Aribuado</div>
+                    <div class="staff-position">ADAS II</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Janette S. Ulang</div>
+                    <div class="staff-position">ADAS II</div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-name">Alfdan Lev G. Peraira</div>
+                    <div class="staff-position">ADAS II</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <section class="footer">
+        <h4>MNSHS</h4>
+        <p>Morong National Senior High School</p>
+        <p>2025-2026</p>
+    </section>
+
+    <!-- Scripts -->
+    <script>
+        // Burger Menu Toggle
+        const burger = document.getElementById('burger');
+        const navLinks = document.getElementById('navLinks');
+
+        burger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            burger.classList.toggle('active');
+        });
+
+        // Close menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                burger.classList.remove('active');
+            });
+        });
+
+        // Search Functionality
+        const searchInput = document.getElementById('searchInput');
+        
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const allStaffCards = document.querySelectorAll('.staff-card');
+            
+            allStaffCards.forEach(card => {
+                const name = card.querySelector('.staff-name').textContent.toLowerCase();
+                const position = card.querySelector('.staff-position').textContent.toLowerCase();
+                
+                if (name.includes(searchTerm) || position.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

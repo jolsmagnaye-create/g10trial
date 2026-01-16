@@ -3,60 +3,477 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>School Map</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Morong National Senior High School</title>
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: sans-serif;
+      background-color: #fff;
+    }
+
+    /* Navigation Bar */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.9);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .logo img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links li a {
+      color: white;
+      text-decoration: none;
+      font-size: 1.1em;
+      font-weight: 500;
+      transition: color 0.3s, background 0.3s;
+      padding: 8px 15px;
+      border-radius: 5px;
+    }
+
+    .nav-links li a:hover,
+    .nav-links li a.active {
+      color: #667eea;
+      background: rgba(102, 126, 234, 0.1);
+    }
+
+    .burger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+    }
+
+    .burger div {
+      width: 25px;
+      height: 3px;
+      background: white;
+      transition: all 0.3s;
+      border-radius: 3px;
+    }
+
+    /* Burger Animation */
+    .burger.active .line1 {
+      transform: rotate(-45deg) translate(-5px, 6px);
+    }
+
+    .burger.active .line2 {
+      opacity: 0;
+    }
+
+    .burger.active .line3 {
+      transform: rotate(45deg) translate(-5px, -6px);
+    }
+
+    /* Mobile Navigation */
+    @media (max-width: 768px) {
+      .nav-links {
+        position: fixed;
+        right: -100%;
+        top: 80px;
+        flex-direction: column;
+        background: rgba(0, 0, 0, 0.95);
+        width: 100%;
+        text-align: center;
+        transition: right 0.3s;
+        padding: 30px 0;
+        gap: 0;
+      }
+
+      .nav-links li {
+        margin: 15px 0;
+      }
+
+      .nav-links li a {
+        font-size: 1.3em;
+      }
+
+      .nav-links.active {
+        right: 0;
+      }
+
+      .burger {
+        display: flex;
+      }
+    }
+
+    /* Header Section */
+    .header {
+      min-height: 100vh;
+      width: 100%;
+      background: linear-gradient(rgba(4,9,30,0.7), rgba(4,9,30,0.7)),
+                  url("photo/mnshsphoto2.jpg") center/cover no-repeat;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Hero Text */
+    .text-box {
+      width: 90%;
+      max-width: 900px;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .text-box h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    .text-box p {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      line-height: 1.8;
+      margin-bottom: 30px;
+    }
+
+    /* Buttons */
+    .hero-btn {
+      display: inline-block;
+      text-decoration: none;
+      color: white;
+      border: 2px solid rgb(8, 139, 85);
+      padding: 12px 30px;
+      font-size: 1rem;
+      background: linear-gradient(135deg, rgb(8, 139, 85) 0%, rgb(7, 68, 43) 100%);
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.3s;
+      border-radius: 5px;
+      font-weight: 500;
+    }
+
+    .hero-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(8, 139, 85, 0.4);
+    }
+
+    /* School Name Banner */
+    .mnshs-index {
+      text-align: center;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: bold;
+      font-family: 'Times New Roman', Times, serif;
+      color: white;
+      background-color: rgba(4, 9, 30, 0.9);
+      padding: 40px 20px;
+      margin: 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Quick Navigation Cards */
+    .quick-nav-section {
+      padding: 80px 20px;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(8, 139, 85, 0.05) 100%);
+    }
+
+    .quick-nav-section h2 {
+      text-align: center;
+      font-size: clamp(2rem, 4vw, 2.5rem);
+      color: #333;
+      margin-bottom: 50px;
+    }
+
+    .nav-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .nav-card {
+      background: white;
+      padding: 40px 30px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      border-top: 4px solid rgb(8, 139, 85);
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .nav-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 30px rgba(8, 139, 85, 0.2);
+    }
+
+    .nav-card-icon {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      color: rgb(8, 139, 85);
+    }
+
+    .nav-card h3 {
+      font-size: 1.5rem;
+      color: #333;
+      margin-bottom: 15px;
+    }
+
+    .nav-card p {
+      color: #666;
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    /* Features Section */
+    .features-section {
+      padding: 80px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .features-section h2 {
+      text-align: center;
+      font-size: clamp(2rem, 4vw, 2.5rem);
+      color: #333;
+      margin-bottom: 50px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+    }
+
+    .feature-item {
+      text-align: center;
+      padding: 30px;
+    }
+
+    .feature-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(8, 139, 85, 0.1) 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 2.5rem;
+    }
+
+    .feature-item h3 {
+      font-size: 1.3rem;
+      color: #333;
+      margin-bottom: 15px;
+    }
+
+    .feature-item p {
+      color: #666;
+      line-height: 1.6;
+    }
+
+    /* Footer */
+    .footer {
+      background-color: rgb(4, 9, 30);
+      color: white;
+      text-align: center;
+      padding: 20px;
+      width: 100%;
+      font-family: 'Times New Roman', Times, serif;
+    }
+
+    .footer h4 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .nav-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
+  <!-- Navigation -->
+  <nav>
+    <a href="index.html" class="logo">
+      <img src="photo/NEw logo.png" alt="School Logo">
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="aboutpage.html">About</a></li>
+      <li><a href="Map.html">Map</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="staff.html">Staff</a></li>
+    </ul>
+    <div class="burger" id="burger">
+      <div class="line1"></div>
+      <div class="line2"></div>
+      <div class="line3"></div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
   <section class="header">
-    <nav class="navbar">
-      <!-- Hamburger button -->
-      <div class="menu-toggle" onclick="toggleMenu()">☰</div>
-
-      <!-- Logo -->
-      <a href="index.html" class="logo">
-        <img src="photo/NEw logo.png" alt="School Logo">
-      </a>
-
-      <!-- Navigation links (with ID for JS toggle) -->
-      <div class="nav-links" id="navLinks">
-        <ul>
-          <li><a href="aboutpage.html">About</a></li>
-          <li><a href="Map.html">Map</a></li>
-          <li><a href="contact.html">Contact</a></li>
-          <li><a href="facilities.html">Facilities</a></li>
-        </ul>
-      </div>
-    </nav>
-
-    <!-- Hero Section -->
     <div class="text-box">
       <h1>Where Education Reigns</h1>
       <p>
         Morong National Senior High School prepares Grades 11 and 12 students
-        for college, careers, <br> lifelong learning through academic, technical,
+        for college, careers, lifelong learning through academic, technical,
         sports, and arts tracks.
       </p>
       <a href="aboutpage.html" class="hero-btn">Visit Us To Know More</a>
     </div>
   </section>
 
-  <!-- School Name -->
+  <!-- School Name Banner -->
   <h1 class="mnshs-index">Morong National Senior High School</h1>
 
-  <!-- Map Section -->
-  <div id="map"></div>
+  <!-- Quick Navigation Section -->
+  <section class="quick-nav-section">
+    <h2>Explore Our School</h2>
+    <div class="nav-cards">
+      <a href="aboutpage.html" class="nav-card">
+        <div class="nav-card-icon">ℹ️</div>
+        <h3>About</h3>
+        <p>Learn about our history, mission, clubs, academic programs, and achievements</p>
+      </a>
+
+      <a href="Map.html" class="nav-card">
+        <div class="nav-card-icon">🗺️</div>
+        <h3>Map</h3>
+        <p>Explore our campus facilities and find your way around the school</p>
+      </a>
+
+      <a href="contact.html" class="nav-card">
+        <div class="nav-card-icon">📞</div>
+        <h3>Contact</h3>
+        <p>Get in touch with us for inquiries, enrollment, or general information</p>
+      </a>
+
+      <a href="staff.html" class="nav-card">
+        <div class="nav-card-icon">👥</div>
+        <h3>Staff</h3>
+        <p>Meet our dedicated faculty and administrative team members</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section">
+    <h2>Why Choose MNSHS?</h2>
+    <div class="features-grid">
+      <div class="feature-item">
+        <div class="feature-icon">🎓</div>
+        <h3>Quality Education</h3>
+        <p>Comprehensive curriculum with academic and technical-vocational tracks designed for student success</p>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-icon">🏆</div>
+        <h3>Award-Winning Programs</h3>
+        <p>Champions in athletics, volleyball, chess, and pencak with proven excellence in sports</p>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-icon">🏫</div>
+        <h3>Modern Facilities</h3>
+        <p>State-of-the-art laboratories, computer labs, library, and specialized training centers</p>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-icon">👨‍🏫</div>
+        <h3>Dedicated Faculty</h3>
+        <p>Experienced and passionate teachers committed to student growth and development</p>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-icon">🎭</div>
+        <h3>Active Clubs</h3>
+        <p>Diverse organizations including publication, arts, music, dance, and STEM clubs</p>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-icon">🌟</div>
+        <h3>Holistic Development</h3>
+        <p>Nurturing students academically, socially, and personally for future success</p>
+      </div>
+    </div>
+  </section>
 
   <!-- Footer -->
   <section class="footer">
     <h4>MNSHS</h4>
-    <p>2025-2026.</p>
+    <p>Morong National Senior High School</p>
+    <p>2025-2026</p>
   </section>
 
-  <!-- Toggle Script -->
+  <!-- Scripts -->
   <script>
-    function toggleMenu() {
-      document.getElementById("navLinks").classList.toggle("show");
-    }
+    // Burger Menu Toggle
+    const burger = document.getElementById('burger');
+    const navLinks = document.getElementById('navLinks');
+
+    burger.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      burger.classList.toggle('active');
+    });
+
+    // Close menu when clicking on a link
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+        burger.classList.remove('active');
+      });
+    });
+
+    // Smooth scroll for internal links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
   </script>
 </body>
 </html>
