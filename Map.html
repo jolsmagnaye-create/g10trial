@@ -725,12 +725,12 @@
 <body>
     <nav>
         <a href="#" class="logo">
-            <img src="school-logo.png" alt="School Logo">
+            <img src="photo/NEw logo.png" alt="School Logo">
         </a>
         <ul class="nav-links" id="navLinks">
             <li><a href="#" class="active">Map</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="aboutpage.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
         </ul>
         <div class="burger" id="burger">
             <div class="line1"></div>
@@ -740,16 +740,16 @@
     </nav>
 
     <div class="container" style="margin-top: 70px;">
-        <h1> Interactive School Map</h1>
+        <h1>Interactive School Map</h1>
         <p class="subtitle">Click on any area to learn more • Search for specific locations • Find your way around campus</p>
 
         <div class="search-container">
-            <input type="text" class="search-box" id="searchBox" placeholder="🔍 Search for a location (e.g., library, canteen, lab...)">
+            <input type="text" class="search-box" id="searchBox" placeholder=" Search for a location (e.g., library, canteen, lab...)">
             <button class="search-btn" onclick="searchLocation()">Find</button>
         </div>
 
         <div class="navigation-section">
-            <h3>🧭 Navigation Helper</h3>
+            <h3>Navigation Helper</h3>
             <div class="nav-controls">
                 <select class="nav-select" id="currentLocation">
                     <option value="">Select your current location...</option>
@@ -761,19 +761,19 @@
             </div>
             <button class="nav-btn reset-btn" id="resetBtn" onclick="resetPath()">Clear Path</button>
             <div class="path-info" id="pathInfo">
-                <p><strong>📍 Route:</strong> <span id="pathDescription"></span></p>
+                <p><strong> Route:</strong> <span id="pathDescription"></span></p>
             </div>
         </div>
 
         <div class="map-container" id="mapContainer">
             <svg id="pathSvg"></svg>
-            <img src="Dumpster.png" usemap="#image-map" alt="School Map" id="mapImage">
+            <img src="photo/Dumpster.png" usemap="#image-map" alt="School Map" id="mapImage">
             <map name="image-map">
                 <area target="" alt="DUMP" title="DUMP" href="#" coords="202,17,301,40" shape="rect" onclick="showInfo('DUMP'); return false;">
                 <area target="" alt="CLASS BLDG-1 FL-4" title="CLASS BLDG-1 FL-4" href="#" coords="357,78,536,104" shape="rect" onclick="showInfo('CLASS BLDG-1 FL-4'); return false;">
                 <area target="" alt="CLASS BLDG-1 FL-3" title="CLASS BLDG-1 FL-3" href="#" coords="839,131,359,148" shape="rect" onclick="showInfo('CLASS BLDG-1 FL-3'); return false;">
                 <area target="" alt="STORAGE 1" title="STORAGE 1" href="#" coords="560,68,630,105" shape="rect" onclick="showInfo('STORAGE 1'); return false;">
-                <area target="" alt="PUBLI" title="PUBLI" href="#" coords="835,100,761,69" shape="rect" onclick="showInfo('PUBLI'); return false;">
+                <area target="" alt="PUBLICATION" title="PUBLICATION" href="#" coords="835,100,761,69" shape="rect" onclick="showInfo('PUBLICATION'); return false;">
                 <area target="" alt="COMP LAB" title="COMP LAB" href="#" coords="760,165,838,182" shape="rect" onclick="showInfo('COMP LAB'); return false;">
                 <area target="" alt="SCIELAB 1" title="SCIELAB 1" href="#" coords="561,165,636,183" shape="rect" onclick="showInfo('SCIELAB 1'); return false;">
                 <area target="" alt="ADMIN/REGISTAR" title="ADMIN/REGISTAR" href="#" coords="437,183,353,165" shape="rect" onclick="showInfo('ADMIN/REGISTAR'); return false;">
@@ -827,29 +827,29 @@
     </div>
 
     <div class="help-panel" id="helpPanel">
-        <h3>📚 How to Use This Map</h3>
+        <h3>How to Use This Map</h3>
         
         <div class="help-section">
-            <h4>🖱️ Interactive Features</h4>
+            <h4>Interactive Features</h4>
             <p>Click on any building or area on the map to view detailed information about that location.</p>
         </div>
 
         <div class="help-section">
-            <h4>🔍 Search Locations</h4>
+            <h4>Search Locations</h4>
             <p>Type the location name in the search box and click "Find" to see a red marker pointing to that location.</p>
         </div>
 
         <div class="help-section">
-            <h4>🧭 Navigation Helper</h4>
+            <h4>Navigation Helper</h4>
             <p>Select your current location and destination from the dropdowns, then click "Find Path" to see the route highlighted on the map.</p>
         </div>
 
         <div class="help-tip">
-            <strong>💡 Pro Tip:</strong> Use pinch-to-zoom on mobile devices for a better view of the map!
+            <strong>Tip:</strong> Use pinch-to-zoom on mobile devices for a better view of the map!
         </div>
 
         <div class="help-section">
-            <h4>📱 Mobile Friendly</h4>
+            <h4>Mobile Friendly</h4>
             <p>This map is fully optimized for mobile devices. Tap to explore and use gestures to zoom!</p>
         </div>
     </div>
@@ -873,7 +873,7 @@
                 description: "Storage facility for school equipment and supplies.",
                 imagePath: ""
             },
-            "PUBLI": {
+            "PUBLICATION": {
                 description: "Publication office or printing area.",
                 imagePath: ""
             },
@@ -1037,7 +1037,7 @@
             "CLASS BLDG-1 FL-4": {x: 446, y: 91},
             "CLASS BLDG-1 FL-3": {x: 599, y: 139},
             "STORAGE 1": {x: 595, y: 86},
-            "PUBLI": {x: 798, y: 84},
+            "PUBLICATION": {x: 798, y: 84},
             "COMP LAB": {x: 799, y: 173},
             "SCIELAB 1": {x: 598, y: 174},
             "ADMIN/REGISTAR": {x: 395, y: 174},
@@ -1364,7 +1364,7 @@
                 
                 details.innerHTML = `
                     ${imageHTML}
-                    <p><strong>📋 Description:</strong> ${info.description}</p>
+                    <p><strong>Description:</strong> ${info.description}</p>
                 `;
             } else {
                 details.innerHTML = `
@@ -1376,7 +1376,7 @@
                             <p><strong>Add your facility image here</strong></p>
                         </div>
                     </div>
-                    <p><strong>📋 Description:</strong> Information about ${roomName}</p>
+                    <p><strong>Description:</strong> Information about ${roomName}</p>
                     <p><em>Details coming soon. Please contact the administration office for more information.</em></p>
                 `;
             }
