@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Interactive School Map</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         /* Navigation Styles */
@@ -17,8 +18,8 @@
             top: 0;
             left: 0;
             right: 0;
-            background: rgba(0, 0, 0, 0.9);
-            padding: 15px 30px;
+            background: rgba(20, 70, 40, 0.95);
+            padding: 12px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -33,8 +34,8 @@
         }
 
         .logo img {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             object-fit: cover;
         }
@@ -42,7 +43,7 @@
         .nav-links {
             display: flex;
             list-style: none;
-            gap: 30px;
+            gap: 20px;
             margin: 0;
             padding: 0;
         }
@@ -50,17 +51,17 @@
         .nav-links li a {
             color: white;
             text-decoration: none;
-            font-size: 1.1em;
+            font-size: 1em;
             font-weight: 500;
             transition: color 0.3s, background 0.3s;
-            padding: 8px 15px;
+            padding: 8px 12px;
             border-radius: 5px;
         }
 
         .nav-links li a:hover,
         .nav-links li a.active {
-            color: #667eea;
-            background: rgba(102, 126, 234, 0.1);
+            color: #4ade80;
+            background: rgba(74, 222, 128, 0.15);
         }
 
         .burger {
@@ -68,6 +69,7 @@
             flex-direction: column;
             cursor: pointer;
             gap: 5px;
+            padding: 5px;
         }
 
         .burger div {
@@ -96,22 +98,24 @@
             .nav-links {
                 position: fixed;
                 right: -100%;
-                top: 80px;
+                top: 60px;
                 flex-direction: column;
-                background: rgba(0, 0, 0, 0.95);
+                background: rgba(20, 70, 40, 0.98);
                 width: 100%;
                 text-align: center;
                 transition: right 0.3s;
-                padding: 30px 0;
+                padding: 20px 0;
                 gap: 0;
             }
 
             .nav-links li {
-                margin: 15px 0;
+                margin: 12px 0;
             }
 
             .nav-links li a {
-                font-size: 1.3em;
+                font-size: 1.2em;
+                display: block;
+                padding: 12px 20px;
             }
 
             .nav-links.active {
@@ -123,74 +127,93 @@
             }
         }
 
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 0;
+            background: linear-gradient(135deg, rgba(5, 150, 105, 0.9) 0%, rgba(20, 83, 45, 0.9) 100%), 
+                        url('background.png') center/cover fixed;
             min-height: 100vh;
+            overflow-x: hidden;
         }
+
         .container {
-            max-width: 1400px;
+            max-width: 100%;
+            width: 100%;
             margin: 0 auto;
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.3);
         }
+
         h1 {
             text-align: center;
-            color: #333;
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            color: #14532d;
+            font-size: 1.8em;
+            margin-bottom: 8px;
+            padding: 0 10px;
         }
+
         .subtitle {
             text-align: center;
-            color: #666;
-            margin-bottom: 20px;
+            color: #059669;
+            margin-bottom: 15px;
+            font-size: 0.95em;
+            padding: 0 10px;
+            line-height: 1.4;
         }
+
         .help-tracker {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: white;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             border-radius: 50%;
-            width: 60px;
-            height: 60px;
+            width: 55px;
+            height: 55px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 15px rgba(5, 150, 105, 0.4);
             transition: all 0.3s ease;
             z-index: 1000;
+            touch-action: manipulation;
         }
-        .help-tracker:hover {
+
+        .help-tracker:hover,
+        .help-tracker:active {
             transform: scale(1.1);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+            box-shadow: 0 6px 20px rgba(5, 150, 105, 0.6);
         }
+
         .help-tracker .icon {
-            font-size: 28px;
+            font-size: 26px;
+            color: white;
         }
+
         .help-panel {
             position: fixed;
-            bottom: 90px;
+            bottom: 85px;
             right: 20px;
             background: white;
             border-radius: 15px;
             padding: 20px;
-            width: 320px;
-            max-height: 500px;
+            width: calc(100vw - 40px);
+            max-width: 320px;
+            max-height: 70vh;
             overflow-y: auto;
             box-shadow: 0 8px 30px rgba(0,0,0,0.3);
             display: none;
             z-index: 999;
             animation: slideUp 0.3s ease;
+            border: 2px solid #10b981;
         }
+
         .help-panel.active {
             display: block;
         }
+
         @keyframes slideUp {
             from {
                 opacity: 0;
@@ -201,194 +224,144 @@
                 transform: translateY(0);
             }
         }
+
         .help-panel h3 {
             margin-top: 0;
-            color: #667eea;
-            border-bottom: 2px solid #667eea;
+            color: #059669;
+            border-bottom: 2px solid #10b981;
             padding-bottom: 10px;
+            font-size: 1.2em;
         }
+
         .help-section {
             margin: 15px 0;
         }
+
         .help-section h4 {
-            color: #23228b;
+            color: #14532d;
             margin-bottom: 8px;
             font-size: 1em;
         }
+
         .help-section p {
             margin: 5px 0;
             line-height: 1.6;
             color: #555;
+            font-size: 0.95em;
         }
+
         .help-tip {
-            background: #f0f4ff;
+            background: #d1fae5;
             padding: 10px;
             border-radius: 8px;
             margin: 10px 0;
-            border-left: 3px solid #667eea;
+            border-left: 3px solid #10b981;
         }
+
         .search-container {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            position: relative;
         }
+
         .search-box {
             width: 100%;
-            padding: 12px 15px;
+            padding: 14px 45px 14px 15px;
             font-size: 16px;
-            border: 2px solid #ddd;
+            border: 2px solid #d1fae5;
             border-radius: 25px;
             outline: none;
             transition: all 0.3s ease;
         }
+
         .search-box:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 10px rgba(102, 126, 234, 0.2);
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
         }
-        .stats-bar {
-            display: flex;
-            justify-content: space-around;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            color: white;
-        }
-        .stat-item {
-            text-align: center;
-        }
-        .stat-number {
-            font-size: 24px;
-            font-weight: bold;
-        }
-        .stat-label {
-            font-size: 12px;
-            opacity: 0.9;
-        }
-        .locator-container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border: 2px solid #667eea;
-        }
-        .locator-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        .locator-header h3 {
-            margin: 0;
-            color: #667eea;
-        }
-        .locator-controls {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-        .location-select {
-            flex: 1;
-            min-width: 200px;
-            padding: 10px 15px;
-            font-size: 14px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            background: white;
-            cursor: pointer;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-        .location-select:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 10px rgba(102, 126, 234, 0.2);
-        }
-        .find-path-btn, .reset-btn {
-            padding: 10px 20px;
-            font-size: 14px;
-            font-weight: bold;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .find-path-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-        .find-path-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-        }
-        .find-path-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-        }
-        .reset-btn {
-            background: #f44336;
-            color: white;
-        }
-        .reset-btn:hover {
-            background: #d32f2f;
-        }
-        .path-info {
-            margin-top: 15px;
-            padding: 12px;
-            background: #e8f4f8;
-            border-radius: 8px;
-            border-left: 4px solid #2196F3;
-            display: none;
-        }
-        .path-info.active {
-            display: block;
-        }
-        .path-svg {
+
+        .search-btn {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 10;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+            touch-action: manipulation;
         }
-        .path-line {
-            stroke: #ff4757;
-            stroke-width: 4;
-            fill: none;
-            stroke-dasharray: 10, 5;
-            animation: dashAnimation 1s linear infinite;
+
+        .search-btn:hover,
+        .search-btn:active {
+            transform: translateY(-50%) scale(1.05);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
         }
-        .path-marker {
-            fill: #ff4757;
-        }
-        @keyframes dashAnimation {
-            to {
-                stroke-dashoffset: -15;
-            }
-        }
+
         .map-container {
             position: relative;
-            display: inline-block;
-            width: 100%;
+            margin: 15px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            background: #f0fdf4;
+            touch-action: pan-x pan-y pinch-zoom;
         }
+
         .map-container img {
             width: 100%;
             height: auto;
             display: block;
         }
-        .info-panel {
-            margin-top: 20px;
-            padding: 20px;
-            background: #e8f4f8;
-            border-radius: 8px;
-            border-left: 4px solid #2196F3;
-            display: none;
+
+        .map-container area {
+            cursor: pointer;
+            outline: none;
         }
+
+        .search-marker {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #ef4444;
+            border: 3px solid white;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.6);
+            animation: pulse 2s infinite;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.3);
+                opacity: 0.7;
+            }
+        }
+
+        .info-panel {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            display: none;
+            animation: fadeIn 0.4s ease;
+            border: 2px solid #10b981;
+        }
+
         .info-panel.active {
             display: block;
-            animation: slideIn 0.3s ease;
         }
-        @keyframes slideIn {
+
+        @keyframes fadeIn {
             from {
                 opacity: 0;
                 transform: translateY(-10px);
@@ -398,48 +371,366 @@
                 transform: translateY(0);
             }
         }
+
         .info-panel h2 {
             margin-top: 0;
-            color: #1976D2;
+            color: #14532d;
+            border-bottom: 2px solid #10b981;
+            padding-bottom: 10px;
+            font-size: 1.3em;
         }
-        .info-panel .details {
-            line-height: 1.6;
-        }
+
         .close-btn {
-            background: #f44336;
+            float: right;
+            background: #ef4444;
             color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            float: right;
-        }
-        .close-btn:hover {
-            background: #d32f2f;
-        }
-        area {
-            cursor: pointer;
-        }
-        .instructions {
-            background: #fff3cd;
-            padding: 15px;
+            padding: 8px 15px;
             border-radius: 5px;
-            margin-bottom: 20px;
-            border-left: 4px solid #ffc107;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+            touch-action: manipulation;
+        }
+
+        .close-btn:hover,
+        .close-btn:active {
+            background: #dc2626;
+        }
+
+        .info-content {
+            margin-top: 15px;
+        }
+
+        .info-content p {
+            margin: 10px 0;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .facility-image-container {
+            margin: 15px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid #10b981;
+            background: white;
+        }
+
+        .facility-image {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: #6b7280;
+            font-size: 0.9em;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .image-placeholder svg {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 10px;
+            opacity: 0.5;
+        }
+
+        .navigation-section {
+            background: #f0fdf4;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border: 2px solid #d1fae5;
+        }
+
+        .navigation-section h3 {
+            color: #14532d;
+            margin-top: 0;
+            font-size: 1.2em;
+        }
+
+        .nav-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .nav-select {
+            padding: 12px;
+            border: 2px solid #d1fae5;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+            width: 100%;
+        }
+
+        .nav-select:focus {
+            border-color: #10b981;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            width: 100%;
+            touch-action: manipulation;
+        }
+
+        .nav-btn:hover,
+        .nav-btn:active {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+        }
+
+        .nav-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .reset-btn {
+            background: #ef4444;
+            display: none;
+            margin-top: 10px;
+        }
+
+        .reset-btn:hover,
+        .reset-btn:active {
+            background: #dc2626;
+        }
+
+        .path-info {
+            background: #fef3c7;
+            border: 2px solid #fbbf24;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .path-info.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .path-info p {
+            margin: 0;
+            color: #78350f;
+            line-height: 1.5;
+        }
+
+        #pathSvg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .path-line {
+            fill: none;
+            stroke: #ef4444;
+            stroke-width: 3;
+            stroke-dasharray: 10;
+            animation: dash 1s linear infinite;
+        }
+
+        @keyframes dash {
+            to {
+                stroke-dashoffset: -20;
+            }
+        }
+
+        .path-marker {
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+
+        /* Mobile Optimizations */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+                border-radius: 0;
+            }
+
+            h1 {
+                font-size: 1.5em;
+                margin-bottom: 5px;
+            }
+
+            .subtitle {
+                font-size: 0.85em;
+                margin-bottom: 10px;
+            }
+
+            .help-tracker {
+                width: 50px;
+                height: 50px;
+                bottom: 15px;
+                right: 15px;
+            }
+
+            .help-tracker .icon {
+                font-size: 24px;
+            }
+
+            .help-panel {
+                bottom: 75px;
+                right: 15px;
+                left: 15px;
+                width: calc(100vw - 30px);
+                max-width: none;
+            }
+
+            .search-box {
+                padding: 12px 40px 12px 12px;
+                font-size: 16px;
+            }
+
+            .search-btn {
+                padding: 6px 12px;
+                font-size: 13px;
+            }
+
+            .info-panel {
+                padding: 12px;
+            }
+
+            .info-panel h2 {
+                font-size: 1.1em;
+            }
+
+            .close-btn {
+                padding: 6px 12px;
+                font-size: 13px;
+            }
+
+            .navigation-section {
+                padding: 12px;
+            }
+
+            .navigation-section h3 {
+                font-size: 1.1em;
+            }
+
+            .nav-select,
+            .nav-btn {
+                font-size: 15px;
+                padding: 11px;
+            }
+
+            .image-placeholder {
+                height: 150px;
+                font-size: 0.85em;
+            }
+
+            .image-placeholder svg {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.3em;
+            }
+
+            .subtitle {
+                font-size: 0.8em;
+            }
+
+            nav {
+                padding: 10px 15px;
+            }
+
+            .logo img {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        /* Tablet Optimizations */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .container {
+                max-width: 95%;
+                padding: 20px;
+            }
+
+            .nav-controls {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .nav-btn {
+                grid-column: 1 / -1;
+            }
+        }
+
+        /* Large Desktop */
+        @media (min-width: 1025px) {
+            .container {
+                max-width: 1400px;
+                padding: 20px;
+                border-radius: 15px;
+            }
+
+            .nav-controls {
+                display: grid;
+                grid-template-columns: 1fr 1fr auto;
+                gap: 10px;
+            }
+
+            .nav-btn {
+                width: auto;
+                padding: 12px 24px;
+            }
+
+            .reset-btn {
+                width: auto;
+                margin-top: 0;
+                margin-left: 10px;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Better touch targets */
+        button, a, area {
+            min-height: 44px;
+            min-width: 44px;
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
     <nav>
-        <a href="index.html" class="logo">
-            <img src="photo/NEw logo.png" alt="School Logo">
+        <a href="#" class="logo">
+            <img src="school-logo.png" alt="School Logo">
         </a>
         <ul class="nav-links" id="navLinks">
-            <li><a href="aboutpage.html">About</a></li>
-            <li><a href="Map.html" class="active">Map</a></li>
-            <li><a href="contact.html">Contact</a></li>
-            <li><a href="staff.html">Staff</a></li>
+            <li><a href="#" class="active">Map</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
         </ul>
         <div class="burger" id="burger">
             <div class="line1"></div>
@@ -448,342 +739,446 @@
         </div>
     </nav>
 
-    <div class="container">
-        <h1>🏫 School Campus Map</h1>
-        <p class="subtitle">Click on any room or area to explore</p>
-        
-        <div class="stats-bar">
-            <div class="stat-item">
-                <div class="stat-number" id="roomsViewed">0</div>
-                <div class="stat-label">Rooms Explored</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" id="clickCount">0</div>
-                <div class="stat-label">Total Clicks</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" id="visitTime">0:00</div>
-                <div class="stat-label">Time Spent</div>
-            </div>
-        </div>
+    <div class="container" style="margin-top: 70px;">
+        <h1> Interactive School Map</h1>
+        <p class="subtitle">Click on any area to learn more • Search for specific locations • Find your way around campus</p>
 
         <div class="search-container">
-            <input type="text" class="search-box" id="searchBox" placeholder="🔍 Search for a room or facility...">
+            <input type="text" class="search-box" id="searchBox" placeholder="🔍 Search for a location (e.g., library, canteen, lab...)">
+            <button class="search-btn" onclick="searchLocation()">Find</button>
         </div>
 
-        <div class="locator-container">
-            <div class="locator-header">
-                <span style="font-size: 24px;">📍</span>
-                <h3>Find Your Way</h3>
-            </div>
-            <div class="locator-controls">
-                <select class="location-select" id="currentLocation">
-                    <option value="">Where are you now?</option>
-                    <option value="ENTRANCE">Main Entrance</option>
-                    <option value="GUARD HOUSE">Guard House</option>
-                    <option value="WAITING SHED">Waiting Shed</option>
-                    <option value="REGISTRAR AND ADMIN OFFICE">Registrar & Admin Office</option>
-                    <option value="PRINCIPAL AND PREFECT GUIDANCE">Principal's Office</option>
-                    <option value="FACULTY G12">Faculty G12</option>
-                    <option value="FACULTY G11">Faculty G11</option>
-                    <option value="SGH & LOST AND FOUND">SGH & Lost and Found</option>
-                    <option value="LIBRARY">Library</option>
-                    <option value="COMPUTER LAB">Computer Lab</option>
-                    <option value="SCIENCE LAB">Science Lab</option>
-                    <option value="CLINIC AND FOOD HUB">Clinic & Food Hub</option>
-                    <option value="CANTEEN">Canteen</option>
-                    <option value="GARDEN">Garden</option>
-                    <option value="LEFT BUILDING CLASSROOM">Left Building Classroom</option>
-                    <option value="RIGHT BUILDING CLASSROOM">Right Building Classroom</option>
-                    <option value="BACK BUILDING CLASSROOM">Back Building Classroom</option>
-                    <option value="SHS COURT/STAGE">SHS Court/Stage</option>
-                    <option value="JHS COURT">JHS Court</option>
-                    <option value="SMAW WORKSHOP">SMAW Workshop</option>
-                    <option value="HOME ECONOMICS LAB">Home Economics Lab</option>
-                    <option value="FBS LAB">FBS Lab</option>
-                    <option value="EIM LAB">EIM Lab</option>
-                    <option value="CAREGIVING LAB">Caregiving Lab</option>
-                    <option value="COOP">Coop</option>
-                    <option value="SOUND ROOM">Sound Room</option>
+        <div class="navigation-section">
+            <h3>🧭 Navigation Helper</h3>
+            <div class="nav-controls">
+                <select class="nav-select" id="currentLocation">
+                    <option value="">Select your current location...</option>
                 </select>
-                
-                <select class="location-select" id="destinationLocation">
-                    <option value="">Where do you want to go?</option>
-                    <option value="REGISTRAR AND ADMIN OFFICE">Registrar & Admin Office</option>
-                    <option value="PRINCIPAL AND PREFECT GUIDANCE">Principal's Office</option>
-                    <option value="FACULTY G12">Faculty G12</option>
-                    <option value="FACULTY G11">Faculty G11</option>
-                    <option value="SGH & LOST AND FOUND">SGH & Lost and Found</option>
-                    <option value="LIBRARY">Library</option>
-                    <option value="COMPUTER LAB">Computer Lab</option>
-                    <option value="SCIENCE LAB">Science Lab</option>
-                    <option value="CLINIC AND FOOD HUB">Clinic & Food Hub</option>
-                    <option value="CANTEEN">Canteen</option>
-                    <option value="GARDEN">Garden</option>
-                    <option value="LEFT BUILDING CLASSROOM">Left Building Classroom</option>
-                    <option value="RIGHT BUILDING CLASSROOM">Right Building Classroom</option>
-                    <option value="BACK BUILDING CLASSROOM">Back Building Classroom</option>
-                    <option value="SHS COURT/STAGE">SHS Court/Stage</option>
-                    <option value="JHS COURT">JHS Court</option>
-                    <option value="SMAW WORKSHOP">SMAW Workshop</option>
-                    <option value="HOME ECONOMICS LAB">Home Economics Lab</option>
-                    <option value="FBS LAB">FBS Lab</option>
-                    <option value="EIM LAB">EIM Lab</option>
-                    <option value="CAREGIVING LAB">Caregiving Lab</option>
-                    <option value="COOP">Coop</option>
-                    <option value="SOUND ROOM">Sound Room</option>
-                    <option value="PUBLICATION">Publication Room</option>
-                    <option value="STORAGE 1">Storage 1</option>
-                    <option value="STORAGE 2">Storage 2</option>
+                <select class="nav-select" id="destinationLocation">
+                    <option value="">Select destination...</option>
                 </select>
-                
-                <button class="find-path-btn" id="findPathBtn" onclick="findPath()">
-                    🧭 Show Path
-                </button>
-                
-                <button class="reset-btn" id="resetBtn" onclick="resetPath()" style="display: none;">
-                    🔄 Reset
-                </button>
+                <button class="nav-btn" onclick="findPath()">Find Path</button>
             </div>
-            
+            <button class="nav-btn reset-btn" id="resetBtn" onclick="resetPath()">Clear Path</button>
             <div class="path-info" id="pathInfo">
-                <strong>📍 Directions:</strong>
-                <p id="pathDescription"></p>
+                <p><strong>📍 Route:</strong> <span id="pathDescription"></span></p>
             </div>
         </div>
 
-        <div class="instructions">
-            <strong>📍 How to Use:</strong> Click on any room or area on the map to view details. Use the search box above to find specific locations. Click the help button in the bottom-right corner for more guidance!
-        </div>
-
-        <div class="map-container">
-            <svg class="path-svg" id="pathSvg"></svg>
-            <img src="photo/school-map.png.png" usemap="#image-map" alt="School Map">
-            
+        <div class="map-container" id="mapContainer">
+            <svg id="pathSvg"></svg>
+            <img src="Dumpster.png" usemap="#image-map" alt="School Map" id="mapImage">
             <map name="image-map">
-                <area alt="EIM LAB" title="EIM LAB" href="javascript:void(0)" onclick="showInfo('EIM LAB')" coords="486,670,732,714" shape="rect">
-                <area alt="CAREGIVING LAB" title="CAREGIVING LAB" href="javascript:void(0)" onclick="showInfo('CAREGIVING LAB')" coords="614,723,731,766" shape="rect">
-                <area alt="SHS COURT/STAGE" title="SHS COURT/STAGE" href="javascript:void(0)" onclick="showInfo('SHS COURT/STAGE')" coords="470,271,843,427" shape="rect">
-                <area alt="JHS COURT" title="JHS COURT" href="javascript:void(0)" onclick="showInfo('JHS COURT')" coords="912,387,1363,647" shape="rect">
-                <area alt="HOME ECONOMICS LAB" title="HOME ECONOMICS LAB" href="javascript:void(0)" onclick="showInfo('HOME ECONOMICS LAB')" coords="1031,173,1302,202" shape="rect">
-                <area alt="FBS LAB" title="FBS LAB" href="javascript:void(0)" onclick="showInfo('FBS LAB')" coords="1033,141,1304,170" shape="rect">
-                <area alt="PRINCIPAL AND PREFECT GUIDANCE" title="PRINCIPAL AND PREFECT GUIDANCE" href="javascript:void(0)" onclick="showInfo('PRINCIPAL AND PREFECT GUIDANCE')" coords="347,194,440,244" shape="rect">
-                <area alt="SGH & LOST AND FOUND" title="SGH & LOST AND FOUND" href="javascript:void(0)" onclick="showInfo('SGH & LOST AND FOUND')" coords="449,196,542,242" shape="rect">
-                <area alt="LIBRARY" title="LIBRARY" href="javascript:void(0)" onclick="showInfo('LIBRARY')" coords="551,196,643,241" shape="rect">
-                <area alt="CLINIC AND FOOD HUB" title="CLINIC AND FOOD HUB" href="javascript:void(0)" onclick="showInfo('CLINIC AND FOOD HUB')" coords="754,195,846,242" shape="rect">
-                <area alt="COMPUTER LAB" title="COMPUTER LAB" href="javascript:void(0)" onclick="showInfo('COMPUTER LAB')" coords="756,159,848,190" shape="rect">
-                <area alt="SCIENCE LAB" title="SCIENCE LAB" href="javascript:void(0)" onclick="showInfo('SCIENCE LAB')" coords="550,160,744,185" shape="rect">
-                <area alt="FACULTY G12" title="FACULTY G12" href="javascript:void(0)" onclick="showInfo('FACULTY G12')" coords="450,160,546,189" shape="rect">
-                <area alt="REGISTRAR AND ADMIN OFFICE" title="REGISTRAR AND ADMIN OFFICE" href="javascript:void(0)" onclick="showInfo('REGISTRAR AND ADMIN OFFICE')" coords="346,159,442,186" shape="rect">
-                <area alt="PUBLICATION" title="PUBLICATION" href="javascript:void(0)" onclick="showInfo('PUBLICATION')" coords="755,59,846,118" shape="rect">
-                <area alt="STORAGE 1" title="STORAGE 1" href="javascript:void(0)" onclick="showInfo('STORAGE 1')" coords="551,58,744,119" shape="rect">
-                <area alt="STORAGE 2" title="STORAGE 2" href="javascript:void(0)" onclick="showInfo('STORAGE 2')" coords="270,554,365,612" shape="rect">
-                <area alt="COOP" title="COOP" href="javascript:void(0)" onclick="showInfo('COOP')" coords="224,450,262,487" shape="rect">
-                <area alt="GUARD HOUSE" title="GUARD HOUSE" href="javascript:void(0)" onclick="showInfo('GUARD HOUSE')" coords="164,349,235,409" shape="rect">
-                <area alt="UTILITY" title="UTILITY" href="javascript:void(0)" onclick="showInfo('UTILITY')" coords="855,192,892,241" shape="rect">
-                <area alt="FACULTY G11" title="FACULTY G11" href="javascript:void(0)" onclick="showInfo('FACULTY G11')" coords="582,450,676,480" shape="rect">
-                <area alt="1ST FLOOR LEFT BUILDING CLASSROOM" title="1ST FLOOR LEFT BUILDING CLASSROOM" href="javascript:void(0)" onclick="showInfo('1ST FLOOR LEFT BUILDING CLASSROOM')" coords="651,197,746,229" shape="rect">
-                <area alt="DUMPSTER" title="DUMPSTER" href="javascript:void(0)" onclick="showInfo('DUMPSTER')" coords="159,71,341,0" shape="rect">
-                <area alt="RIGHT BUILDING CLASSROOM" title="RIGHT BUILDING CLASSROOM" href="javascript:void(0)" onclick="showInfo('RIGHT BUILDING CLASSROOM')" coords="272,452,273,549,377,549,377,611,676,609,680,488,577,488,577,453" shape="poly">
-                <area alt="LEFT BUILDING CLASSROOM" title="LEFT BUILDING CLASSROOM" href="javascript:void(0)" onclick="showInfo('LEFT BUILDING CLASSROOM')" coords="350,60,541,63,541,123,845,126,844,150,348,156" shape="poly">
-                <area alt="CANTEEN" title="CANTEEN" href="javascript:void(0)" onclick="showInfo('CANTEEN')" coords="1032,207,1034,236,1184,239,1185,349,1220,349,1221,377,1364,376,1361,238,1303,242,1302,207" shape="poly">
-                <area alt="GARDEN" title="GARDEN" href="javascript:void(0)" onclick="showInfo('GARDEN')" coords="895,205,981,203,981,103,1026,102,1028,72,1302,72,1306,105,1329,103,1331,237,1364,234,1364,61,891,58" shape="poly">
-                <area alt="WAITING SHED" title="WAITING SHED" href="javascript:void(0)" onclick="showInfo('WAITING SHED')" coords="66,354,127,492" shape="rect">
-                <area alt="SOUND ROOM" title="SOUND ROOM" href="javascript:void(0)" onclick="showInfo('SOUND ROOM')" coords="686,452,723,487" shape="rect">
-                <area alt="SMAW WORKSHOP" title="SMAW WORKSHOP" href="javascript:void(0)" onclick="showInfo('SMAW WORKSHOP')" coords="727,464,728,662,903,665,905,461,808,460" shape="poly">
-                <area alt="BACK BUILDING CLASSROOM" title="BACK BUILDING CLASSROOM" href="javascript:void(0)" onclick="showInfo('BACK BUILDING CLASSROOM')" coords="483,721,603,762" shape="rect">
+                <area target="" alt="DUMP" title="DUMP" href="#" coords="202,17,301,40" shape="rect" onclick="showInfo('DUMP'); return false;">
+                <area target="" alt="CLASS BLDG-1 FL-4" title="CLASS BLDG-1 FL-4" href="#" coords="357,78,536,104" shape="rect" onclick="showInfo('CLASS BLDG-1 FL-4'); return false;">
+                <area target="" alt="CLASS BLDG-1 FL-3" title="CLASS BLDG-1 FL-3" href="#" coords="839,131,359,148" shape="rect" onclick="showInfo('CLASS BLDG-1 FL-3'); return false;">
+                <area target="" alt="STORAGE 1" title="STORAGE 1" href="#" coords="560,68,630,105" shape="rect" onclick="showInfo('STORAGE 1'); return false;">
+                <area target="" alt="PUBLI" title="PUBLI" href="#" coords="835,100,761,69" shape="rect" onclick="showInfo('PUBLI'); return false;">
+                <area target="" alt="COMP LAB" title="COMP LAB" href="#" coords="760,165,838,182" shape="rect" onclick="showInfo('COMP LAB'); return false;">
+                <area target="" alt="SCIELAB 1" title="SCIELAB 1" href="#" coords="561,165,636,183" shape="rect" onclick="showInfo('SCIELAB 1'); return false;">
+                <area target="" alt="ADMIN/REGISTAR" title="ADMIN/REGISTAR" href="#" coords="437,183,353,165" shape="rect" onclick="showInfo('ADMIN/REGISTAR'); return false;">
+                <area target="" alt="G12 FACULTY/RESEARCH CORNER" title="G12 FACULTY/RESEARCH CORNER" href="#" coords="454,164,540,184" shape="rect" onclick="showInfo('G12 FACULTY/RESEARCH CORNER'); return false;">
+                <area target="" alt="PRNCPLA OFFICE/PREFECT/GUIDANCE" title="PRNCPLA OFFICE/PREFECT/GUIDANCE" href="#" coords="355,201,432,237" shape="rect" onclick="showInfo('PRNCPLA OFFICE/PREFECT/GUIDANCE'); return false;">
+                <area target="" alt="SGH/LOST AND FOUND" title="SGH/LOST AND FOUND" href="#" coords="461,204,531,237" shape="rect" onclick="showInfo('SGH/LOST AND FOUND'); return false;">
+                <area target="" alt="LIBRARY" title="LIBRARY" href="#" coords="633,208,564,232" shape="rect" onclick="showInfo('LIBRARY'); return false;">
+                <area target="" alt="CLASS BLDG-1 FL-1" title="CLASS BLDG-1 FL-1" href="#" coords="660,205,736,228" shape="rect" onclick="showInfo('CLASS BLDG-1 FL-1'); return false;">
+                <area target="" alt="CLINIC/FOODHUB" title="CLINIC/FOODHUB" href="#" coords="769,206,838,237" shape="rect" onclick="showInfo('CLINIC/FOODHUB'); return false;">
+                <area target="" alt="CANTEEN 1" title="CANTEEN 1" href="#" coords="1052,212,1285,233" shape="rect" onclick="showInfo('CANTEEN 1'); return false;">
+                <area target="" alt="CANTEEN 2" title="CANTEEN 2" href="#CANTEEN" coords="1233,295,1351,351" shape="rect" onclick="showInfo('CANTEEN 2'); return false;">
+                <area target="" alt="UTILITIES ROOM" title="UTILITIES ROOM" href="#" coords="857,201,889,234" shape="rect" onclick="showInfo('UTILITIES ROOM'); return false;">
+                <area target="" alt="PARKING AREA" title="PARKING AREA" href="#" coords="207,136,284,175" shape="rect" onclick="showInfo('PARKING AREA'); return false;">
+                <area target="" alt="COURT & STAGE" title="COURT & STAGE" href="#COURT & STAGE" coords="516,331,832,385" shape="rect" onclick="showInfo('COURT & STAGE'); return false;">
+                <area target="" alt="CO-OP" title="CO-OP" href="#" coords="228,455,260,477" shape="rect" onclick="showInfo('CO-OP'); return false;">
+                <area target="" alt="CLASS BLDG-5 FL-1" title="CLASS BLDG-5 FL-1" href="#" coords="276,453,565,477" shape="rect" onclick="showInfo('CLASS BLDG-5 FL-1'); return false;">
+                <area target="" alt="G11 FACULTY" title="G11 FACULTY" href="#" coords="592,457,666,475" shape="rect" onclick="showInfo('G11 FACULTY'); return false;">
+                <area target="" alt="SOUND SYSTEM" title="SOUND SYSTEM" href="#" coords="689,454,720,480" shape="rect" onclick="showInfo('SOUND SYSTEM'); return false;">
+                <area target="" alt="SMAW LAB" title="SMAW LAB" href="#" coords="752,483,883,530" shape="rect" onclick="showInfo('SMAW LAB'); return false;">
+                <area target="" alt="CLASS BLDG-5 FL-2" title="CLASS BLDG-5 FL-2" href="#" coords="281,489,667,507" shape="rect" onclick="showInfo('CLASS BLDG-5 FL-2'); return false;">
+                <area target="" alt="CLASS BLDG-5 FL-3" title="CLASS BLDG-5 FL-3" href="#" coords="276,525,671,541" shape="rect" onclick="showInfo('CLASS BLDG-5 FL-3'); return false;">
+                <area target="" alt="CLASS BLDG-5 FL-4" title="CLASS BLDG-5 FL-4" href="#" coords="383,564,671,601" shape="rect" onclick="showInfo('CLASS BLDG-5 FL-4'); return false;">
+                <area target="" alt="EIM LAB 1" title="EIM LAB 1" href="#" coords="502,679,580,704" shape="rect" onclick="showInfo('EIM LAB 1'); return false;">
+                <area target="" alt="EIM LAB 2" title="EIM LAB 2" href="#" coords="633,680,716,704" shape="rect" onclick="showInfo('EIM LAB 2'); return false;">
+                <area target="" alt="CAREGVNG LAB" title="CAREGVNG LAB" href="#" coords="624,729,720,760" shape="rect" onclick="showInfo('CAREGVNG LAB'); return false;">
+                <area target="" alt="CLASS BLDG-4 FL-1" title="CLASS BLDG-4 FL-1" href="#" coords="507,727,586,755" shape="rect" onclick="showInfo('CLASS BLDG-4 FL-1'); return false;">
+                <area target="" alt="FBS LAB 1" title="FBS LAB 1" href="#" coords="1051,143,1134,165" shape="rect" onclick="showInfo('FBS LAB 1'); return false;">
+                <area target="" alt="FBS LAB 2" title="FBS LAB 2" href="#" coords="1200,144,1281,165" shape="rect" onclick="showInfo('FBS LAB 2'); return false;">
+                <area target="" alt="HOME ECO LAB 1" title="HOME ECO LAB 1" href="#" coords="1040,182,1156,195" shape="rect" onclick="showInfo('HOME ECO LAB 1'); return false;">
+                <area target="" alt="HOME ECO LAB 2" title="HOME ECO LAB 2" href="#" coords="1183,181,1294,195" shape="rect" onclick="showInfo('HOME ECO LAB 2'); return false;">
+                <area target="" alt="SCIELAB 2" title="SCIELAB 2" href="#" coords="663,166,743,185" shape="rect" onclick="showInfo('SCIELAB 2'); return false;">
+                <area target="" alt="WAITING SHED" title="WAITING SHED" href="#" coords="71,361,123,475" shape="rect" onclick="showInfo('WAITING SHED'); return false;">
+                <area target="" alt="GUARDHOUSE" title="GUARDHOUSE" href="#" coords="176,361,228,398" shape="rect" onclick="showInfo('GUARDHOUSE'); return false;">
+                <area target="" alt="STORAGE 3" title="STORAGE 3" href="#" coords="281,569,353,594" shape="rect" onclick="showInfo('STORAGE 3'); return false;">
+                <area target="" alt="STORAGE 2" title="STORAGE 2" href="#" coords="667,71,727,104" shape="rect" onclick="showInfo('STORAGE 2'); return false;">
+                <area target="" alt="SMAW OUTDOORS" title="SMAW OUTDOORS" href="#" coords="749,561,880,619" shape="rect" onclick="showInfo('SMAW OUTDOORS'); return false;">
+                <area target="" alt="JHS COURT" title="JHS COURT" href="#" coords="1019,470,1245,559" shape="rect" onclick="showInfo('JHS COURT'); return false;">
+                <area target="" alt="GATE" title="GATE" href="#" coords="135,237,160,345" shape="rect" onclick="showInfo('GATE'); return false;">
             </map>
         </div>
 
-        <div id="infoPanel" class="info-panel">
+        <div class="info-panel" id="infoPanel">
             <button class="close-btn" onclick="closeInfo()">✕ Close</button>
-            <h2 id="infoTitle"></h2>
-            <div class="details" id="infoDetails"></div>
+            <h2 id="infoTitle">Location Information</h2>
+            <div id="infoDetails" class="info-content"></div>
         </div>
     </div>
 
-    <!-- Help Tracker -->
     <div class="help-tracker" onclick="toggleHelp()">
         <span class="icon">❓</span>
     </div>
 
     <div class="help-panel" id="helpPanel">
-        <h3>🆘 Help & Guide</h3>
+        <h3>📚 How to Use This Map</h3>
         
         <div class="help-section">
-            <h4>🗺️ Navigation Tips</h4>
-            <p>• Click any colored area on the map to view room details</p>
-            <p>• Hover over areas to see tooltips</p>
-            <p>• Use the search box to quickly find locations</p>
+            <h4>🖱️ Interactive Features</h4>
+            <p>Click on any building or area on the map to view detailed information about that location.</p>
         </div>
 
         <div class="help-section">
-            <h4>📊 Your Progress</h4>
-            <p>Track your exploration at the top of the page:</p>
-            <p>• <strong>Rooms Explored:</strong> Unique rooms you've clicked</p>
-            <p>• <strong>Total Clicks:</strong> How many times you've interacted</p>
-            <p>• <strong>Time Spent:</strong> Duration on the map</p>
+            <h4>🔍 Search Locations</h4>
+            <p>Type the location name in the search box and click "Find" to see a red marker pointing to that location.</p>
+        </div>
+
+        <div class="help-section">
+            <h4>🧭 Navigation Helper</h4>
+            <p>Select your current location and destination from the dropdowns, then click "Find Path" to see the route highlighted on the map.</p>
         </div>
 
         <div class="help-tip">
-            <strong>💡 Pro Tip:</strong> Try to explore all rooms to get familiar with the campus layout!
+            <strong>💡 Pro Tip:</strong> Use pinch-to-zoom on mobile devices for a better view of the map!
         </div>
 
         <div class="help-section">
-            <h4>🧭 Pathfinding Feature</h4>
-            <p>Use the "Find Your Way" tool to get directions:</p>
-            <p>• Select your current location from the first dropdown</p>
-            <p>• Select your destination from the second dropdown</p>
-            <p>• Click "Show Path" to see an animated route</p>
-            <p>• Green marker = Start, Red pulsing marker = Destination</p>
-            <p>• Click "Reset" to clear the path and start over</p>
-        </div>
-
-        <div class="help-section">
-            <h4>📱 Mobile Users</h4>
-            <p>Pinch to zoom on the map for better viewing on small screens.</p>
-        </div>
-
-        <div class="help-section">
-            <h4>❓ Need More Help?</h4>
-            <p>Contact the administration office or visit the guard house for assistance.</p>
+            <h4>📱 Mobile Friendly</h4>
+            <p>This map is fully optimized for mobile devices. Tap to explore and use gestures to zoom!</p>
         </div>
     </div>
 
     <script>
-        // Room information database
+        // Data structures - ADD YOUR IMAGE FILENAMES IN THE imagePath FIELDS
         const roomInfo = {
-            'COMPUTER LAB': {
-                description: 'Provides students with access to computers for digital learning, research, and technical skill development.'
+            "DUMP": {
+                description: "Waste disposal area for the school campus.",
+                imagePath: "" // Add image filename here, e.g., "dump.jpg"
             },
-            'FACULTY G12': {
-                description: 'Serves as a workspace for teachers and student leaders to coordinate academic and school activities.'
+            "CLASS BLDG-1 FL-4": {
+                description: "Classroom Building 1, 4th Floor - Regular academic classrooms.",
+                imagePath: ""
             },
-            'FACULTY G11': {
-                description: 'Serves as a workspace for teachers and student leaders to coordinate academic and school activities.'
+            "CLASS BLDG-1 FL-3": {
+                description: "Classroom Building 1, 3rd Floor - Regular academic classrooms.",
+                imagePath: ""
             },
-            'REGISTRAR AND ADMIN OFFICE': {
-                description: 'Handles student records, enrollment, and other academic documentation. Manages administrative tasks and supports overall school operations.'
+            "STORAGE 1": {
+                description: "Storage facility for school equipment and supplies.",
+                imagePath: ""
             },
-            'PRINCIPAL AND PREFECT GUIDANCE': {
-                description: 'Oversees school administration, discipline, and student guidance.'
+            "PUBLI": {
+                description: "Publication office or printing area.",
+                imagePath: ""
             },
-            'PUBLICATION': {
-                description: 'A creative space where students produce school publications and media materials.'
+            "COMP LAB": {
+                description: "Computer Laboratory - Equipped with modern computers for IT classes and research.",
+                imagePath: "" // Add image filename here, e.g., "comp_lab.jpg"
             },
-            'STORAGE 1': {
-                description: 'Used for the safekeeping and organization of school supplies and equipment.'
+            "SCIELAB 1": {
+                description: "Science Laboratory 1 - Facility for conducting scientific experiments and research.",
+                imagePath: ""
             },
-            'STORAGE 2': {
-                description: 'Used for the safekeeping and organization of school supplies and equipment.'
+            "ADMIN/REGISTAR": {
+                description: "Administration and Registrar's Office - Handle enrollment, records, and administrative matters.",
+                imagePath: ""
             },
-            'SCIENCE LAB': {
-                description: 'Allows students to conduct experiments and apply scientific concepts through hands-on learning.'
+            "G12 FACULTY/RESEARCH CORNER": {
+                description: "Grade 12 Faculty Room and Research Corner - Office space for teachers and student research area.",
+                imagePath: ""
             },
-            'LIBRARY': {
-                description: 'Provides books and learning resources in a quiet environment for study and research.'
+            "PRNCPLA OFFICE/PREFECT/GUIDANCE": {
+                description: "Principal's Office, Prefect of Discipline, and Guidance Office - Administrative offices for school leadership and student services.",
+                imagePath: ""
             },
-            'SOUND ROOM': {
-                description: 'Houses audio equipment used for school programs, events, and announcements.'
+            "SGH/LOST AND FOUND": {
+                description: "Student Government Hall and Lost & Found - Student organization hub and lost items collection point.",
+                imagePath: ""
             },
-            'COOP': {
-                description: 'Offers affordable school supplies and basic necessities for students.'
+            "LIBRARY": {
+                description: "School Library - Collection of books, references, and study materials. Quiet study area available.",
+                imagePath: "" // Add image filename here, e.g., "library.jpg"
             },
-            'CAREGIVING LAB': {
-                description: 'Equipped for hands-on training in caregiving and basic healthcare practices.'
+            "CLASS BLDG-1 FL-1": {
+                description: "Classroom Building 1, 1st Floor - Regular academic classrooms.",
+                imagePath: ""
             },
-            'EIM LAB': {
-                description: 'Supports practical learning in Electrical Installation and Maintenance.'
+            "CLINIC/FOODHUB": {
+                description: "School Clinic and Food Hub - Medical services and food service area.",
+                imagePath: ""
             },
-            'CANTEEN': {
-                description: 'Serves food and refreshments to students and staff during school hours.'
+            "CANTEEN 1": {
+                description: "Main Canteen - Food service area offering meals and snacks for students and staff.",
+                imagePath: "" // Add image filename here, e.g., "canteen1.jpg"
             },
-            'SGH & LOST AND FOUND': {
-                description: 'A designated area where lost items are kept and returned to their owners. Serves as a workspace for student government.'
+            "CANTEEN 2": {
+                description: "Secondary Canteen - Additional food service area.",
+                imagePath: "" // Add image filename here, e.g., "canteen2.jpg"
             },
-            'SMAW WORKSHOP': {
-                description: 'Provides tools and space for hands-on Shielded Metal Arc Welding training.'
+            "UTILITIES ROOM": {
+                description: "Utilities and maintenance room for school facilities.",
+                imagePath: ""
             },
-            'HOME ECONOMICS LAB': {
-                description: 'Develops practical skills in cooking, household management, and related activities.'
+            "PARKING AREA": {
+                description: "Designated parking area for vehicles.",
+                imagePath: ""
             },
-            'FBS LAB': {
-                description: 'Used for training in food and beverage service, hospitality, and customer service skills.'
+            "COURT & STAGE": {
+                description: "Multi-purpose court and stage area for sports activities, assemblies, and events.",
+                imagePath: ""
             },
-            'CLINIC AND FOOD HUB': {
-                description: 'Provides basic medical care and first aid for students and staff. A space dedicated to food preparation, service, and food-related school activities.'
+            "CO-OP": {
+                description: "School Cooperative Store - Sells school supplies and other items.",
+                imagePath: "" // Add image filename here, e.g., "coop.jpg"
             },
-            'UTILITY': {
-                description: 'Ensures maintenance and proper functioning of school facilities.'
+            "CLASS BLDG-5 FL-1": {
+                description: "Classroom Building 5, 1st Floor - Regular academic classrooms.",
+                imagePath: ""
             },
-            'JHS COURT': {
-                description: 'Multi-purpose court for sports, physical education, and school events.'
+            "G11 FACULTY": {
+                description: "Grade 11 Faculty Room - Office space for Grade 11 teachers.",
+                imagePath: ""
             },
-            'SHS COURT/STAGE': {
-                description: 'Used for assemblies, programs, sporting events, and performances.'
+            "SOUND SYSTEM": {
+                description: "Sound system control room for events and announcements.",
+                imagePath: ""
             },
-            'GARDEN': {
-                description: 'A green space for relaxation, environmental activities, and outdoor learning.'
+            "SMAW LAB": {
+                description: "Shielded Metal Arc Welding Laboratory - Technical-vocational workshop for welding training.",
+                imagePath: ""
             },
-            'GUARD HOUSE': {
-                description: 'Security post that monitors campus entry and ensures the safety of students and staff.'
+            "CLASS BLDG-5 FL-2": {
+                description: "Classroom Building 5, 2nd Floor - Regular academic classrooms.",
+                imagePath: ""
             },
-            'WAITING SHED': {
-                description: 'A covered area where students and visitors can wait for transportation or shelter from weather.'
+            "CLASS BLDG-5 FL-3": {
+                description: "Classroom Building 5, 3rd Floor - Regular academic classrooms.",
+                imagePath: ""
             },
-            '1ST FLOOR LEFT BUILDING CLASSROOM': {
-                description: 'Regular classrooms for academic instruction and learning activities.'
+            "CLASS BLDG-5 FL-4": {
+                description: "Classroom Building 5, 4th Floor - Regular academic classrooms.",
+                imagePath: ""
             },
-            'LEFT BUILDING CLASSROOM': {
-                description: 'Regular classrooms for academic instruction and learning activities.'
+            "EIM LAB 1": {
+                description: "Electrical Installation and Maintenance Laboratory 1 - Technical-vocational workshop.",
+                imagePath: ""
             },
-            'RIGHT BUILDING CLASSROOM': {
-                description: 'Regular classrooms for academic instruction and learning activities.'
+            "EIM LAB 2": {
+                description: "Electrical Installation and Maintenance Laboratory 2 - Technical-vocational workshop.",
+                imagePath: ""
             },
-            'BACK BUILDING CLASSROOM': {
-                description: 'Regular classrooms for academic instruction and learning activities.'
+            "CAREGVNG LAB": {
+                description: "Caregiving Laboratory - Training facility for caregiving and health services course.",
+                imagePath: ""
+            },
+            "CLASS BLDG-4 FL-1": {
+                description: "Classroom Building 4, 1st Floor - Regular academic classrooms.",
+                imagePath: ""
+            },
+            "FBS LAB 1": {
+                description: "Food and Beverage Services Laboratory 1 - Culinary training facility.",
+                imagePath: ""
+            },
+            "FBS LAB 2": {
+                description: "Food and Beverage Services Laboratory 2 - Culinary training facility.",
+                imagePath: ""
+            },
+            "HOME ECO LAB 1": {
+                description: "Home Economics Laboratory 1 - Facility for home economics and life skills training.",
+                imagePath: ""
+            },
+            "HOME ECO LAB 2": {
+                description: "Home Economics Laboratory 2 - Facility for home economics and life skills training.",
+                imagePath: ""
+            },
+            "SCIELAB 2": {
+                description: "Science Laboratory 2 - Additional facility for conducting scientific experiments and research.",
+                imagePath: ""
+            },
+            "WAITING SHED": {
+                description: "Covered waiting area near the entrance.",
+                imagePath: ""
+            },
+            "GUARDHOUSE": {
+                description: "Security guardhouse at the school entrance.",
+                imagePath: ""
+            },
+            "STORAGE 3": {
+                description: "Storage facility for school equipment and supplies.",
+                imagePath: ""
+            },
+            "STORAGE 2": {
+                description: "Storage facility for school equipment and supplies.",
+                imagePath: ""
+            },
+            "SMAW OUTDOORS": {
+                description: "Outdoor area for welding practice and technical activities.",
+                imagePath: ""
+            },
+            "JHS COURT": {
+                description: "Junior High School Court - Sports and recreation area for JHS students.",
+                imagePath: ""
+            },
+            "GATE": {
+                description: "Main entrance gate to the school campus.",
+                imagePath: ""
             }
         };
-        
-        // Tracking variables
-        let roomsViewed = new Set();
-        let clickCount = 0;
-        let startTime = Date.now();
-        let timerInterval;
 
-        // Location coordinates (center points of each area)
+        // Location coordinates for pathfinding (center of each area)
         const locationCoords = {
-            'ENTRANCE': {x: 100, y: 300},
-            'GUARD HOUSE': {x: 200, y: 380},
-            'WAITING SHED': {x: 97, y: 420},
-            'REGISTRAR AND ADMIN OFFICE': {x: 394, y: 172},
-            'PRINCIPAL AND PREFECT GUIDANCE': {x: 394, y: 219},
-            'FACULTY G12': {x: 498, y: 174},
-            'FACULTY G11': {x: 629, y: 465},
-            'SGH & LOST AND FOUND': {x: 495, y: 219},
-            'LIBRARY': {x: 597, y: 219},
-            'COMPUTER LAB': {x: 802, y: 174},
-            'SCIENCE LAB': {x: 647, y: 172},
-            'CLINIC AND FOOD HUB': {x: 800, y: 219},
-            'CANTEEN': {x: 1183, y: 276},
-            'GARDEN': {x: 1127, y: 150},
-            'LEFT BUILDING CLASSROOM': {x: 596, y: 109},
-            'RIGHT BUILDING CLASSROOM': {x: 475, y: 530},
-            'BACK BUILDING CLASSROOM': {x: 543, y: 741},
-            'SHS COURT/STAGE': {x: 656, y: 349},
-            'JHS COURT': {x: 1137, y: 517},
-            'SMAW WORKSHOP': {x: 815, y: 563},
-            'HOME ECONOMICS LAB': {x: 1166, y: 187},
-            'FBS LAB': {x: 1168, y: 155},
-            'EIM LAB': {x: 609, y: 692},
-            'CAREGIVING LAB': {x: 672, y: 744},
-            'COOP': {x: 243, y: 468},
-            'SOUND ROOM': {x: 704, y: 469},
-            'PUBLICATION': {x: 800, y: 88},
-            'STORAGE 1': {x: 647, y: 88},
-            'STORAGE 2': {x: 317, y: 583},
-            'UTILITY': {x: 873, y: 216}
+            "DUMP": {x: 251, y: 28},
+            "CLASS BLDG-1 FL-4": {x: 446, y: 91},
+            "CLASS BLDG-1 FL-3": {x: 599, y: 139},
+            "STORAGE 1": {x: 595, y: 86},
+            "PUBLI": {x: 798, y: 84},
+            "COMP LAB": {x: 799, y: 173},
+            "SCIELAB 1": {x: 598, y: 174},
+            "ADMIN/REGISTAR": {x: 395, y: 174},
+            "G12 FACULTY/RESEARCH CORNER": {x: 497, y: 174},
+            "PRNCPLA OFFICE/PREFECT/GUIDANCE": {x: 393, y: 219},
+            "SGH/LOST AND FOUND": {x: 496, y: 220},
+            "LIBRARY": {x: 598, y: 220},
+            "CLASS BLDG-1 FL-1": {x: 698, y: 216},
+            "CLINIC/FOODHUB": {x: 803, y: 221},
+            "CANTEEN 1": {x: 1168, y: 222},
+            "CANTEEN 2": {x: 1292, y: 323},
+            "UTILITIES ROOM": {x: 873, y: 217},
+            "PARKING AREA": {x: 245, y: 155},
+            "COURT & STAGE": {x: 674, y: 358},
+            "CO-OP": {x: 244, y: 466},
+            "CLASS BLDG-5 FL-1": {x: 420, y: 465},
+            "G11 FACULTY": {x: 629, y: 466},
+            "SOUND SYSTEM": {x: 704, y: 467},
+            "SMAW LAB": {x: 817, y: 506},
+            "CLASS BLDG-5 FL-2": {x: 474, y: 498},
+            "CLASS BLDG-5 FL-3": {x: 473, y: 533},
+            "CLASS BLDG-5 FL-4": {x: 527, y: 582},
+            "EIM LAB 1": {x: 541, y: 691},
+            "EIM LAB 2": {x: 674, y: 692},
+            "CAREGVNG LAB": {x: 672, y: 744},
+            "CLASS BLDG-4 FL-1": {x: 546, y: 741},
+            "FBS LAB 1": {x: 1092, y: 154},
+            "FBS LAB 2": {x: 1240, y: 154},
+            "HOME ECO LAB 1": {x: 1098, y: 188},
+            "HOME ECO LAB 2": {x: 1238, y: 188},
+            "SCIELAB 2": {x: 703, y: 175},
+            "WAITING SHED": {x: 97, y: 418},
+            "GUARDHOUSE": {x: 202, y: 379},
+            "STORAGE 3": {x: 317, y: 581},
+            "STORAGE 2": {x: 697, y: 87},
+            "SMAW OUTDOORS": {x: 814, y: 590},
+            "JHS COURT": {x: 1132, y: 514},
+            "GATE": {x: 147, y: 291}
         };
+
+        let currentMarker = null;
+
+        // Initialize dropdowns
+        function initializeDropdowns() {
+            const locations = Object.keys(locationCoords).sort();
+            const currentSelect = document.getElementById('currentLocation');
+            const destSelect = document.getElementById('destinationLocation');
+
+            locations.forEach(loc => {
+                const option1 = document.createElement('option');
+                option1.value = loc;
+                option1.textContent = loc;
+                currentSelect.appendChild(option1);
+
+                const option2 = document.createElement('option');
+                option2.value = loc;
+                option2.textContent = loc;
+                destSelect.appendChild(option2);
+            });
+        }
+
+        // Call on page load
+        initializeDropdowns();
+
+        // Search location function
+        function searchLocation() {
+            const searchTerm = document.getElementById('searchBox').value.trim().toLowerCase();
+            
+            if (!searchTerm) {
+                alert('Please enter a location name to search.');
+                return;
+            }
+
+            // Remove existing marker
+            if (currentMarker) {
+                currentMarker.remove();
+                currentMarker = null;
+            }
+
+            // Find matching location
+            const match = Object.keys(locationCoords).find(room => 
+                room.toLowerCase().includes(searchTerm)
+            );
+
+            if (match) {
+                const coords = locationCoords[match];
+                showMarker(coords);
+                showInfo(match);
+                document.getElementById('searchBox').value = '';
+                
+                // Scroll to map
+                document.getElementById('mapContainer').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+            } else {
+                alert('Location not found. Try keywords like "lab", "classroom", "canteen", "library", etc.');
+            }
+        }
+
+        // Show red marker on map
+        function showMarker(coords) {
+            const mapContainer = document.getElementById('mapContainer');
+            const img = document.getElementById('mapImage');
+            
+            // Get actual image dimensions
+            const imgWidth = img.offsetWidth;
+            const imgHeight = img.offsetHeight;
+            
+            // Calculate scale factor (coordinates are based on 1366x768)
+            const scaleX = imgWidth / 1366;
+            const scaleY = imgHeight / 768;
+            
+            // Calculate marker position
+            const markerX = coords.x * scaleX;
+            const markerY = coords.y * scaleY;
+            
+            // Create marker
+            const marker = document.createElement('div');
+            marker.className = 'search-marker';
+            marker.style.left = markerX + 'px';
+            marker.style.top = markerY + 'px';
+            
+            mapContainer.appendChild(marker);
+            currentMarker = marker;
+            
+            // Remove marker after 10 seconds
+            setTimeout(() => {
+                if (currentMarker === marker) {
+                    marker.remove();
+                    currentMarker = null;
+                }
+            }, 10000);
+        }
+
+        // Search on Enter key
+        document.getElementById('searchBox').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                searchLocation();
+            }
+        });
 
         // Pathfinding function
         function findPath() {
@@ -791,7 +1186,7 @@
             const end = document.getElementById('destinationLocation').value;
             
             if (!start || !end) {
-                alert('Please select both your current location and destination!');
+                alert('Please select both current location and destination.');
                 return;
             }
             
@@ -800,7 +1195,7 @@
                 return;
             }
             
-            // Clear any existing path
+            // Clear any existing path and marker
             resetPath();
             
             // Get coordinates
@@ -822,22 +1217,27 @@
             pathInfo.classList.add('active');
             
             // Show reset button
-            document.getElementById('resetBtn').style.display = 'inline-block';
+            document.getElementById('resetBtn').style.display = 'block';
+            
+            // Scroll to map
+            document.getElementById('mapContainer').scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center' 
+            });
         }
 
         function drawPath(start, end) {
             const svg = document.getElementById('pathSvg');
-            const img = document.querySelector('.map-container img');
+            const img = document.getElementById('mapImage');
             
             // Get actual image dimensions
-            const imgRect = img.getBoundingClientRect();
             const imgWidth = img.offsetWidth;
             const imgHeight = img.offsetHeight;
             
             // Set SVG viewBox to match image
             svg.setAttribute('viewBox', `0 0 ${imgWidth} ${imgHeight}`);
             
-            // Calculate scale factor (map coordinates are based on original 1366x768 image)
+            // Calculate scale factor
             const scaleX = imgWidth / 1366;
             const scaleY = imgHeight / 768;
             
@@ -847,7 +1247,7 @@
             const endX = end.x * scaleX;
             const endY = end.y * scaleY;
             
-            // Create path with waypoints for more natural routing
+            // Create path with waypoints
             const midX = (startX + endX) / 2;
             const midY = (startY + endY) / 2;
             
@@ -857,22 +1257,22 @@
             line.setAttribute('d', `M ${startX} ${startY} Q ${midX} ${midY} ${endX} ${endY}`);
             svg.appendChild(line);
             
-            // Draw start marker
+            // Draw start marker (green)
             const startMarker = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
             startMarker.setAttribute('class', 'path-marker');
             startMarker.setAttribute('cx', startX);
             startMarker.setAttribute('cy', startY);
             startMarker.setAttribute('r', 8 * Math.min(scaleX, scaleY));
-            startMarker.setAttribute('fill', '#4CAF50');
+            startMarker.setAttribute('fill', '#10b981');
             svg.appendChild(startMarker);
             
-            // Draw end marker
+            // Draw end marker (red)
             const endMarker = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
             endMarker.setAttribute('class', 'path-marker');
             endMarker.setAttribute('cx', endX);
             endMarker.setAttribute('cy', endY);
             endMarker.setAttribute('r', 8 * Math.min(scaleX, scaleY));
-            endMarker.setAttribute('fill', '#f44336');
+            endMarker.setAttribute('fill', '#ef4444');
             svg.appendChild(endMarker);
             
             // Add pulsing animation to end marker
@@ -881,7 +1281,7 @@
             pulse.setAttribute('cy', endY);
             pulse.setAttribute('r', 8 * Math.min(scaleX, scaleY));
             pulse.setAttribute('fill', 'none');
-            pulse.setAttribute('stroke', '#f44336');
+            pulse.setAttribute('stroke', '#ef4444');
             pulse.setAttribute('stroke-width', '2');
             const animate = document.createElementNS('http://www.w3.org/2000/svg', 'animate');
             animate.setAttribute('attributeName', 'r');
@@ -905,6 +1305,12 @@
             const svg = document.getElementById('pathSvg');
             svg.innerHTML = '';
             
+            // Remove search marker
+            if (currentMarker) {
+                currentMarker.remove();
+                currentMarker = null;
+            }
+            
             // Hide path info
             document.getElementById('pathInfo').classList.remove('active');
             
@@ -916,81 +1322,60 @@
             document.getElementById('destinationLocation').value = '';
         }
 
-        // Initialize timer
-        function startTimer() {
-            timerInterval = setInterval(() => {
-                const elapsed = Math.floor((Date.now() - startTime) / 1000);
-                const minutes = Math.floor(elapsed / 60);
-                const seconds = elapsed % 60;
-                document.getElementById('visitTime').textContent = 
-                    `${minutes}:${seconds.toString().padStart(2, '0')}`;
-            }, 1000);
-        }
-
-        // Update stats
-        function updateStats(roomName) {
-            roomsViewed.add(roomName);
-            clickCount++;
-            
-            document.getElementById('roomsViewed').textContent = roomsViewed.size;
-            document.getElementById('clickCount').textContent = clickCount;
-        }
-
         // Toggle help panel
         function toggleHelp() {
             const helpPanel = document.getElementById('helpPanel');
             helpPanel.classList.toggle('active');
         }
 
-        // Search functionality
-        const searchBox = document.getElementById('searchBox');
-        searchBox.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            if (searchTerm.length > 0) {
-                const matches = Object.keys(roomInfo).filter(room => 
-                    room.toLowerCase().includes(searchTerm)
-                );
-                
-                if (matches.length > 0) {
-                    console.log('Found rooms:', matches);
-                    // You can add a dropdown here to show results
-                }
-            }
-        });
-
-        searchBox.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                const searchTerm = e.target.value.toLowerCase();
-                const match = Object.keys(roomInfo).find(room => 
-                    room.toLowerCase().includes(searchTerm)
-                );
-                
-                if (match) {
-                    showInfo(match);
-                    searchBox.value = '';
-                } else {
-                    alert('Room not found. Try keywords like "lab", "classroom", "canteen", etc.');
-                }
-            }
-        });
-
         function showInfo(roomName) {
             const panel = document.getElementById('infoPanel');
             const title = document.getElementById('infoTitle');
             const details = document.getElementById('infoDetails');
 
-            // Update tracking
-            updateStats(roomName);
-
             title.textContent = roomName;
 
             const info = roomInfo[roomName];
             if (info) {
+                let imageHTML = '';
+                
+                if (info.imagePath && info.imagePath !== '') {
+                    // If image path is provided, show the image
+                    imageHTML = `
+                        <div class="facility-image-container">
+                            <img src="${info.imagePath}" alt="${roomName}" class="facility-image" 
+                                 onerror="this.parentElement.innerHTML='<div class=\\'image-placeholder\\'><svg fill=\\'currentColor\\' viewBox=\\'0 0 20 20\\'><path fill-rule=\\'evenodd\\' d=\\'M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z\\' clip-rule=\\'evenodd\\'/></svg><p>Image not available</p></div>'">
+                        </div>
+                    `;
+                } else {
+                    // Show placeholder with instruction
+                    imageHTML = `
+                        <div class="facility-image-container">
+                            <div class="image-placeholder">
+                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                                </svg>
+                                <p><strong>Add your facility image here</strong></p>
+                                <p style="font-size: 0.85em; margin-top: 5px;">Edit the code to add imagePath: "your-image.jpg"</p>
+                            </div>
+                        </div>
+                    `;
+                }
+                
                 details.innerHTML = `
+                    ${imageHTML}
                     <p><strong>📋 Description:</strong> ${info.description}</p>
                 `;
             } else {
                 details.innerHTML = `
+                    <div class="facility-image-container">
+                        <div class="image-placeholder">
+                            <svg fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                            </svg>
+                            <p><strong>Add your facility image here</strong></p>
+                        </div>
+                    </div>
                     <p><strong>📋 Description:</strong> Information about ${roomName}</p>
                     <p><em>Details coming soon. Please contact the administration office for more information.</em></p>
                 `;
@@ -1005,9 +1390,6 @@
             panel.classList.remove('active');
         }
 
-        // Start the timer when page loads
-        startTimer();
-
         // Close help panel when clicking outside
         document.addEventListener('click', (e) => {
             const helpPanel = document.getElementById('helpPanel');
@@ -1017,7 +1399,6 @@
                 helpPanel.classList.remove('active');
             }
         });
-
 
         // Burger Menu Toggle
         const burger = document.getElementById("burger");
@@ -1035,7 +1416,46 @@
                 burger.classList.remove("active");
             });
         });
+
+        // Handle window resize for responsive map
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                // Redraw path if exists
+                const svg = document.getElementById('pathSvg');
+                if (svg.children.length > 0) {
+                    const start = document.getElementById('currentLocation').value;
+                    const end = document.getElementById('destinationLocation').value;
+                    if (start && end) {
+                        const startCoords = locationCoords[start];
+                        const endCoords = locationCoords[end];
+                        svg.innerHTML = '';
+                        drawPath(startCoords, endCoords);
+                    }
+                }
+                
+                // Reposition marker if exists
+                if (currentMarker) {
+                    const searchTerm = document.getElementById('infoTitle').textContent;
+                    const coords = locationCoords[searchTerm];
+                    if (coords) {
+                        currentMarker.remove();
+                        showMarker(coords);
+                    }
+                }
+            }, 250);
+        });
+
+        // Prevent double-tap zoom on buttons
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', (e) => {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                e.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
     </script>
 </body>
-        
 </html>
