@@ -5,6 +5,173 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Interactive School Map</title>
     <style>
+/* Dark Mode Styles */
+body.dark-mode {
+    background: linear-gradient(135deg, rgba(0, 50, 30, 0.95) 0%, rgba(10, 20, 15, 0.95) 100%), 
+                url('background.png') center/cover fixed;
+}
+
+body.dark-mode .container {
+    background: rgba(30, 30, 30, 0.95);
+    color: #e5e7eb;
+}
+
+body.dark-mode h1 {
+    color: #4ade80;
+}
+
+body.dark-mode .subtitle {
+    color: #86efac;
+}
+
+body.dark-mode .search-select,
+body.dark-mode .nav-select {
+    background: #1f2937;
+    color: #e5e7eb;
+    border-color: #374151;
+}
+
+body.dark-mode .navigation-section {
+    background: #1f2937;
+    border-color: #374151;
+}
+
+body.dark-mode .navigation-section h3 {
+    color: #4ade80;
+}
+
+body.dark-mode .info-panel {
+    background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+    border-color: #059669;
+}
+
+body.dark-mode .info-panel h2 {
+    color: #4ade80;
+    border-color: #059669;
+}
+
+body.dark-mode .info-content p {
+    color: #d1d5db;
+}
+
+body.dark-mode .help-panel {
+    background: #1f2937;
+    color: #e5e7eb;
+    border-color: #059669;
+}
+
+body.dark-mode .help-panel h3 {
+    color: #4ade80;
+    border-color: #059669;
+}
+
+body.dark-mode .help-section h4 {
+    color: #86efac;
+}
+
+body.dark-mode .help-section p {
+    color: #d1d5db;
+}
+
+body.dark-mode .help-tip {
+    background: #374151;
+    border-color: #059669;
+}
+
+body.dark-mode .map-container {
+    background: #111827;
+}
+
+/* Dark/Light Mode Toggle Button */
+.theme-toggle {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    border-radius: 50%;
+    width: 55px;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(5, 150, 105, 0.4);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    border: none;
+    touch-action: manipulation;
+}
+
+.theme-toggle:hover,
+.theme-toggle:active {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(5, 150, 105, 0.6);
+}
+
+.theme-toggle .icon {
+    font-size: 26px;
+    color: white;
+}
+
+/* Scroll to Top Button */
+.scroll-to-top {
+    position: fixed;
+    bottom: 160px;
+    right: 20px;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    border-radius: 50%;
+    width: 55px;
+    height: 55px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(5, 150, 105, 0.4);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    border: none;
+    touch-action: manipulation;
+}
+
+.scroll-to-top.visible {
+    display: flex;
+}
+
+.scroll-to-top:hover,
+.scroll-to-top:active {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(5, 150, 105, 0.6);
+}
+
+.scroll-to-top .icon {
+    font-size: 26px;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .theme-toggle {
+        width: 50px;
+        height: 50px;
+        bottom: 80px;
+        right: 15px;
+    }
+
+    .theme-toggle .icon {
+        font-size: 24px;
+    }
+
+    .scroll-to-top {
+        width: 50px;
+        height: 50px;
+        bottom: 140px;
+        right: 15px;
+    }
+
+    .scroll-to-top .icon {
+        font-size: 24px;
+    }
+}
+
         * {
             margin: 0;
             padding: 0;
@@ -131,8 +298,8 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, rgba(5, 150, 105, 0.9) 0%, rgba(20, 83, 45, 0.9) 100%), 
-                        url('background.png') center/cover fixed;
+            background: linear-gradient(135deg, rgba(246, 255, 252, 0.9) 0%, rgba(20, 83, 45, 0.9) 100%), 
+                        url('PHOTO/background.png') center/cover fixed;
             min-height: 100vh;
             overflow-x: hidden;
         }
@@ -260,44 +427,43 @@
 
         .search-container {
             margin-bottom: 15px;
-            position: relative;
+            display: flex;
+            gap: 10px;
         }
 
-        .search-box {
-            width: 100%;
-            padding: 14px 45px 14px 15px;
+        .search-select {
+            flex: 1;
+            padding: 12px 15px;
             font-size: 16px;
             border: 2px solid #d1fae5;
-            border-radius: 25px;
+            border-radius: 8px;
             outline: none;
             transition: all 0.3s ease;
+            background: white;
         }
 
-        .search-box:focus {
+        .search-select:focus {
             border-color: #10b981;
             box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
         }
 
         .search-btn {
-            position: absolute;
-            right: 8px;
-            top: 50%;
-            transform: translateY(-50%);
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 12px 24px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 600;
             transition: all 0.3s;
             touch-action: manipulation;
+            white-space: nowrap;
         }
 
         .search-btn:hover,
         .search-btn:active {
-            transform: translateY(-50%) scale(1.05);
+            transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
         }
 
@@ -472,6 +638,7 @@
             outline: none;
             transition: border-color 0.3s;
             width: 100%;
+            background: white;
         }
 
         .nav-select:focus {
@@ -599,14 +766,18 @@
                 max-width: none;
             }
 
-            .search-box {
-                padding: 12px 40px 12px 12px;
-                font-size: 16px;
+            .search-container {
+                flex-direction: column;
+            }
+
+            .search-select {
+                font-size: 15px;
+                padding: 11px;
             }
 
             .search-btn {
-                padding: 6px 12px;
-                font-size: 13px;
+                font-size: 15px;
+                padding: 11px;
             }
 
             .info-panel {
@@ -673,6 +844,10 @@
                 padding: 20px;
             }
 
+            .search-container {
+                flex-direction: row;
+            }
+
             .nav-controls {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
@@ -690,6 +865,10 @@
                 max-width: 1400px;
                 padding: 20px;
                 border-radius: 15px;
+            }
+
+            .search-container {
+                flex-direction: row;
             }
 
             .nav-controls {
@@ -723,12 +902,24 @@
     </style>
 </head>
 <body>
+
+    <!-- Theme Toggle Button -->
+<button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">
+    <span class="icon" id="themeIcon">🌙</span>
+</button>
+
+<!-- Scroll to Top Button -->
+<button class="scroll-to-top" id="scrollToTop" onclick="scrollToTop()">
+    <span class="icon">⬆️</span>
+</button>
+
     <nav>
-        <a href="#" class="logo">
+        <a href="index.html" class="logo">
             <img src="photo/NEw logo.png" alt="School Logo">
         </a>
         <ul class="nav-links" id="navLinks">
-            <li><a href="#" class="active">Map</a></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="Map.html" class="active">Map</a></li>
             <li><a href="aboutpage.html">About</a></li>
             <li><a href="contact.html">Contact</a></li>
         </ul>
@@ -740,11 +931,13 @@
     </nav>
 
     <div class="container" style="margin-top: 70px;">
-        <h1>Interactive School Map</h1>
+        <h1>🗺️ Interactive School Map</h1>
         <p class="subtitle">Click on any area to learn more • Search for specific locations • Find your way around campus</p>
 
         <div class="search-container">
-            <input type="text" class="search-box" id="searchBox" placeholder=" Search for a location (e.g., library, canteen, lab...)">
+            <select class="search-select" id="searchSelect">
+                <option value=""> Select a location to find...</option>
+            </select>
             <button class="search-btn" onclick="searchLocation()">Find</button>
         </div>
 
@@ -761,7 +954,7 @@
             </div>
             <button class="nav-btn reset-btn" id="resetBtn" onclick="resetPath()">Clear Path</button>
             <div class="path-info" id="pathInfo">
-                <p><strong> Route:</strong> <span id="pathDescription"></span></p>
+                <p><strong>Route:</strong> <span id="pathDescription"></span></p>
             </div>
         </div>
 
@@ -773,12 +966,12 @@
                 <area target="" alt="CLASS BLDG-1 FL-4" title="CLASS BLDG-1 FL-4" href="#" coords="357,78,536,104" shape="rect" onclick="showInfo('CLASS BLDG-1 FL-4'); return false;">
                 <area target="" alt="CLASS BLDG-1 FL-3" title="CLASS BLDG-1 FL-3" href="#" coords="839,131,359,148" shape="rect" onclick="showInfo('CLASS BLDG-1 FL-3'); return false;">
                 <area target="" alt="STORAGE 1" title="STORAGE 1" href="#" coords="560,68,630,105" shape="rect" onclick="showInfo('STORAGE 1'); return false;">
-                <area target="" alt="PUBLICATION" title="PUBLICATION" href="#" coords="835,100,761,69" shape="rect" onclick="showInfo('PUBLICATION'); return false;">
+                <area target="" alt="PUBLI" title="PUBLI" href="#" coords="835,100,761,69" shape="rect" onclick="showInfo('PUBLI'); return false;">
                 <area target="" alt="COMP LAB" title="COMP LAB" href="#" coords="760,165,838,182" shape="rect" onclick="showInfo('COMP LAB'); return false;">
                 <area target="" alt="SCIELAB 1" title="SCIELAB 1" href="#" coords="561,165,636,183" shape="rect" onclick="showInfo('SCIELAB 1'); return false;">
                 <area target="" alt="ADMIN/REGISTAR" title="ADMIN/REGISTAR" href="#" coords="437,183,353,165" shape="rect" onclick="showInfo('ADMIN/REGISTAR'); return false;">
                 <area target="" alt="G12 FACULTY/RESEARCH CORNER" title="G12 FACULTY/RESEARCH CORNER" href="#" coords="454,164,540,184" shape="rect" onclick="showInfo('G12 FACULTY/RESEARCH CORNER'); return false;">
-                <area target="" alt="PRNCPLA OFFICE/PREFECT/GUIDANCE" title="PRNCPLA OFFICE/PREFECT/GUIDANCE" href="#" coords="355,201,432,237" shape="rect" onclick="showInfo('PRNCPLA OFFICE/PREFECT/GUIDANCE'); return false;">
+                <area target="" alt="PRINCIPAL OFFICE/PREFECT/GUIDANCE" title="PRINCIPAL OFFICE/PREFECT/GUIDANCE" href="#" coords="355,201,432,237" shape="rect" onclick="showInfo('PRINCIPAL OFFICE/PREFECT/GUIDANCE'); return false;">
                 <area target="" alt="SGH/LOST AND FOUND" title="SGH/LOST AND FOUND" href="#" coords="461,204,531,237" shape="rect" onclick="showInfo('SGH/LOST AND FOUND'); return false;">
                 <area target="" alt="LIBRARY" title="LIBRARY" href="#" coords="633,208,564,232" shape="rect" onclick="showInfo('LIBRARY'); return false;">
                 <area target="" alt="CLASS BLDG-1 FL-1" title="CLASS BLDG-1 FL-1" href="#" coords="660,205,736,228" shape="rect" onclick="showInfo('CLASS BLDG-1 FL-1'); return false;">
@@ -836,7 +1029,7 @@
 
         <div class="help-section">
             <h4>Search Locations</h4>
-            <p>Type the location name in the search box and click "Find" to see a red marker pointing to that location.</p>
+            <p>Select a location from the dropdown list and click "Find" to see a red marker pointing to that location.</p>
         </div>
 
         <div class="help-section">
@@ -845,7 +1038,7 @@
         </div>
 
         <div class="help-tip">
-            <strong>Tip:</strong> Use pinch-to-zoom on mobile devices for a better view of the map!
+            <strong>Pro Tip:</strong> Use pinch-to-zoom on mobile devices for a better view of the map!
         </div>
 
         <div class="help-section">
@@ -873,7 +1066,7 @@
                 description: "Storage facility for school equipment and supplies.",
                 imagePath: ""
             },
-            "PUBLICATION": {
+            "PUBLI": {
                 description: "Publication office or printing area.",
                 imagePath: ""
             },
@@ -893,7 +1086,7 @@
                 description: "Grade 12 Faculty Room and Research Corner - Office space for teachers and student research area.",
                 imagePath: ""
             },
-            "PRNCPLA OFFICE/PREFECT/GUIDANCE": {
+            "PRINCIPAL OFFICE/PREFECT/GUIDANCE": {
                 description: "Principal's Office, Prefect of Discipline, and Guidance Office - Administrative offices for school leadership and student services.",
                 imagePath: ""
             },
@@ -915,11 +1108,11 @@
             },
             "CANTEEN 1": {
                 description: "Main Canteen - Food service area offering meals and snacks for students and staff.",
-                imagePath: "" // Add image filename here, e.g., "canteen1.jpg"
+                imagePath: "photo/msnhs/canteen.jpg" // Add image filename here, e.g., "canteen1.jpg"
             },
             "CANTEEN 2": {
                 description: "Secondary Canteen - Additional food service area.",
-                imagePath: "" // Add image filename here, e.g., "canteen2.jpg"
+                imagePath: "photo/msnhs/canteen2.jpg" // Add image filename here, e.g., "canteen2.jpg"
             },
             "UTILITIES ROOM": {
                 description: "Utilities and maintenance room for school facilities.",
@@ -1037,12 +1230,12 @@
             "CLASS BLDG-1 FL-4": {x: 446, y: 91},
             "CLASS BLDG-1 FL-3": {x: 599, y: 139},
             "STORAGE 1": {x: 595, y: 86},
-            "PUBLICATION": {x: 798, y: 84},
+            "PUBLI": {x: 798, y: 84},
             "COMP LAB": {x: 799, y: 173},
             "SCIELAB 1": {x: 598, y: 174},
             "ADMIN/REGISTAR": {x: 395, y: 174},
             "G12 FACULTY/RESEARCH CORNER": {x: 497, y: 174},
-            "PRNCPLA OFFICE/PREFECT/GUIDANCE": {x: 393, y: 219},
+            "PRINCIPAL OFFICE/PREFECT/GUIDANCE": {x: 393, y: 219},
             "SGH/LOST AND FOUND": {x: 496, y: 220},
             "LIBRARY": {x: 598, y: 220},
             "CLASS BLDG-1 FL-1": {x: 698, y: 216},
@@ -1083,10 +1276,18 @@
         // Initialize dropdowns
         function initializeDropdowns() {
             const locations = Object.keys(locationCoords).sort();
+            const searchSelect = document.getElementById('searchSelect');
             const currentSelect = document.getElementById('currentLocation');
             const destSelect = document.getElementById('destinationLocation');
 
             locations.forEach(loc => {
+                // Search dropdown
+                const searchOption = document.createElement('option');
+                searchOption.value = loc;
+                searchOption.textContent = loc;
+                searchSelect.appendChild(searchOption);
+
+                // Navigation dropdowns
                 const option1 = document.createElement('option');
                 option1.value = loc;
                 option1.textContent = loc;
@@ -1104,10 +1305,10 @@
 
         // Search location function
         function searchLocation() {
-            const searchTerm = document.getElementById('searchBox').value.trim().toLowerCase();
+            const selectedLocation = document.getElementById('searchSelect').value;
             
-            if (!searchTerm) {
-                alert('Please enter a location name to search.');
+            if (!selectedLocation) {
+                alert('Please select a location from the dropdown list.');
                 return;
             }
 
@@ -1117,24 +1318,19 @@
                 currentMarker = null;
             }
 
-            // Find matching location
-            const match = Object.keys(locationCoords).find(room => 
-                room.toLowerCase().includes(searchTerm)
-            );
-
-            if (match) {
-                const coords = locationCoords[match];
+            const coords = locationCoords[selectedLocation];
+            if (coords) {
                 showMarker(coords);
-                showInfo(match);
-                document.getElementById('searchBox').value = '';
+                showInfo(selectedLocation);
+                
+                // Reset dropdown
+                document.getElementById('searchSelect').value = '';
                 
                 // Scroll to map
                 document.getElementById('mapContainer').scrollIntoView({ 
                     behavior: 'smooth', 
                     block: 'center' 
                 });
-            } else {
-                alert('Location not found. Try keywords like "lab", "classroom", "canteen", "library", etc.');
             }
         }
 
@@ -1172,13 +1368,6 @@
                 }
             }, 10000);
         }
-
-        // Search on Enter key
-        document.getElementById('searchBox').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                searchLocation();
-            }
-        });
 
         // Pathfinding function
         function findPath() {
@@ -1376,7 +1565,7 @@
                             <p><strong>Add your facility image here</strong></p>
                         </div>
                     </div>
-                    <p><strong>Description:</strong> Information about ${roomName}</p>
+                    <p><strong>📋 Description:</strong> Information about ${roomName}</p>
                     <p><em>Details coming soon. Please contact the administration office for more information.</em></p>
                 `;
             }
@@ -1456,6 +1645,58 @@
             }
             lastTouchEnd = now;
         }, false);
+
+        // Dark Mode Toggle
+function toggleTheme() {
+    const body = document.body;
+    const themeIcon = document.getElementById('themeIcon');
+    
+    body.classList.toggle('dark-mode');
+    
+    // Update icon
+    if (body.classList.contains('dark-mode')) {
+        themeIcon.textContent = '☀️';
+        localStorage.setItem('theme', 'dark');
+    } else {
+        themeIcon.textContent = '🌙';
+        localStorage.setItem('theme', 'light');
+    }
+}
+
+// Load saved theme on page load
+function loadTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    const body = document.body;
+    const themeIcon = document.getElementById('themeIcon');
+    
+    if (savedTheme === 'dark') {
+        body.classList.add('dark-mode');
+        themeIcon.textContent = '☀️';
+    }
+}
+
+// Call loadTheme when page loads
+loadTheme();
+
+// Scroll to Top functionality
+const scrollToTopBtn = document.getElementById('scrollToTop');
+
+// Show button when user scrolls down 300px
+window.addEventListener('scroll', () => {
+    if (window.pageYOffset > 300) {
+        scrollToTopBtn.classList.add('visible');
+    } else {
+        scrollToTopBtn.classList.remove('visible');
+    }
+});
+
+// Smooth scroll to top
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
     </script>
 </body>
 </html>
