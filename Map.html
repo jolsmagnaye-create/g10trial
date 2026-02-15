@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Interactive School Map</title>
+
     <style>
 /* Dark Mode Styles */
 body.dark-mode {
     background: linear-gradient(135deg, rgba(0, 50, 30, 0.95) 0%, rgba(10, 20, 15, 0.95) 100%), 
-                url('background.png') center/cover fixed;
+                url('photo/background.png') center/cover fixed;
 }
 
 body.dark-mode .container {
@@ -83,102 +84,123 @@ body.dark-mode .map-container {
 }
 
 /* Dark/Light Mode Toggle Button */
+/* Theme Toggle Button - Contact Style */
 .theme-toggle {
     position: fixed;
     bottom: 90px;
     right: 20px;
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    border-radius: 50%;
-    width: 55px;
-    height: 55px;
+    background: rgba(42, 42, 42, 0.9);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    border-radius: 12px;
+    padding: 12px 16px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 8px;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(5, 150, 105, 0.4);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     transition: all 0.3s ease;
     z-index: 1000;
-    border: none;
-    touch-action: manipulation;
+    backdrop-filter: blur(10px);
 }
 
-.theme-toggle:hover,
-.theme-toggle:active {
-    transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(5, 150, 105, 0.6);
+.theme-toggle:hover {
+    background: rgba(34, 197, 94, 0.2);
+    border-color: #22c55e;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(34, 197, 94, 0.3);
 }
 
 .theme-toggle .icon {
-    font-size: 26px;
-    color: white;
+    font-size: 20px;
 }
 
-/* Scroll to Top Button */
+.theme-toggle .label {
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+body.dark-mode .theme-toggle {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+body.dark-mode .theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Scroll to Top Button - Contact Style */
 .scroll-to-top {
     position: fixed;
     bottom: 160px;
     right: 20px;
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    border-radius: 50%;
-    width: 55px;
-    height: 55px;
+    background: rgba(42, 42, 42, 0.9);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    border-radius: 12px;
+    padding: 12px 16px;
     display: none;
     align-items: center;
-    justify-content: center;
+    gap: 8px;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(5, 150, 105, 0.4);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     transition: all 0.3s ease;
     z-index: 1000;
-    border: none;
-    touch-action: manipulation;
+    backdrop-filter: blur(10px);
 }
 
 .scroll-to-top.visible {
     display: flex;
 }
 
-.scroll-to-top:hover,
-.scroll-to-top:active {
-    transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(5, 150, 105, 0.6);
+.scroll-to-top:hover {
+    background: rgba(34, 197, 94, 0.2);
+    border-color: #22c55e;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(34, 197, 94, 0.3);
 }
 
 .scroll-to-top .icon {
-    font-size: 26px;
-    color: white;
+    font-size: 20px;
+}
+
+.scroll-to-top .label {
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+body.dark-mode .scroll-to-top {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+body.dark-mode .scroll-to-top:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
 }
 
 @media (max-width: 768px) {
     .theme-toggle {
-        width: 50px;
-        height: 50px;
         bottom: 80px;
         right: 15px;
+        padding: 10px 14px;
     }
 
-    .theme-toggle .icon {
-        font-size: 24px;
+    .theme-toggle .label {
+        font-size: 13px;
     }
 
     .scroll-to-top {
-        width: 50px;
-        height: 50px;
         bottom: 140px;
         right: 15px;
+        padding: 10px 14px;
     }
 
-    .scroll-to-top .icon {
-        font-size: 24px;
+    .scroll-to-top .label {
+        font-size: 13px;
     }
 }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
         /* Navigation Styles */
         nav {
             position: fixed;
@@ -1052,59 +1074,59 @@ body.dark-mode .map-container {
         const roomInfo = {
             "DUMP": {
                 description: "Waste disposal area for the school campus.",
-                imagePath: "" // Add image filename here, e.g., "dump.jpg"
+                imagePath: null // Add image filename here, e.g., "dump.jpg"
             },
             "CLASS BLDG-1 FL-4": {
                 description: "Classroom Building 1, 4th Floor - Regular academic classrooms.",
-                imagePath: ""
+                imagePath: null
             },
             "CLASS BLDG-1 FL-3": {
                 description: "Classroom Building 1, 3rd Floor - Regular academic classrooms.",
-                imagePath: ""
+                imagePath: null
             },
             "STORAGE 1": {
                 description: "Storage facility for school equipment and supplies.",
-                imagePath: ""
+                imagePath: null
             },
             "PUBLI": {
                 description: "Publication office or printing area.",
-                imagePath: ""
+                imagePath: null
             },
             "COMP LAB": {
                 description: "Computer Laboratory - Equipped with modern computers for IT classes and research.",
-                imagePath: "" // Add image filename here, e.g., "comp_lab.jpg"
+                imagePath: "photo/msnhs/COMLAB.jpg" // Add image filename here, e.g., "comp_lab.jpg"
             },
             "SCIELAB 1": {
                 description: "Science Laboratory 1 - Facility for conducting scientific experiments and research.",
-                imagePath: ""
+                imagePath: "photo/msnhs/SCIENCE LAB.jpg" // Add image filename here, e.g., "scielab1.jpg"
             },
             "ADMIN/REGISTAR": {
                 description: "Administration and Registrar's Office - Handle enrollment, records, and administrative matters.",
-                imagePath: ""
+                imagePath: "photo/msnhs/REGISTAR ADN ADMIN.jpg" // Add image filename here, e.g., "admin_registrar.jpg"
             },
             "G12 FACULTY/RESEARCH CORNER": {
                 description: "Grade 12 Faculty Room and Research Corner - Office space for teachers and student research area.",
-                imagePath: ""
+                imagePath: "photo/msnhs/G12 FACULTY.jpg" // Add image filename here, e.g., "g12_faculty.jpg"
             },
             "PRINCIPAL OFFICE/PREFECT/GUIDANCE": {
                 description: "Principal's Office, Prefect of Discipline, and Guidance Office - Administrative offices for school leadership and student services.",
-                imagePath: ""
+                imagePath: "photo/msnhs/PRINCIPAL OFFICE.jpg" // Add image filename here, e.g., "principal_office.jpg"
             },
             "SGH/LOST AND FOUND": {
                 description: "Student Government Hall and Lost & Found - Student organization hub and lost items collection point.",
-                imagePath: ""
+                imagePath: "photo/msnhs/SGH.jpg" // Add image filename here, e.g., "sgh.jpg"
             },
             "LIBRARY": {
                 description: "School Library - Collection of books, references, and study materials. Quiet study area available.",
-                imagePath: "" // Add image filename here, e.g., "library.jpg"
+                imagePath: null // Add image filename here, e.g., "library.jpg"
             },
             "CLASS BLDG-1 FL-1": {
                 description: "Classroom Building 1, 1st Floor - Regular academic classrooms.",
-                imagePath: ""
+                imagePath: null
             },
             "CLINIC/FOODHUB": {
                 description: "School Clinic and Food Hub - Medical services and food service area.",
-                imagePath: ""
+                imagePath: null
             },
             "CANTEEN 1": {
                 description: "Main Canteen - Food service area offering meals and snacks for students and staff.",
@@ -1116,111 +1138,111 @@ body.dark-mode .map-container {
             },
             "UTILITIES ROOM": {
                 description: "Utilities and maintenance room for school facilities.",
-                imagePath: ""
+                imagePath: "photo/msnhs/STAFF ROOM.jpg" // Add image filename here, e.g., "utilities_room.jpg"
             },
             "PARKING AREA": {
                 description: "Designated parking area for vehicles.",
-                imagePath: ""
+                imagePath: null
             },
             "COURT & STAGE": {
                 description: "Multi-purpose court and stage area for sports activities, assemblies, and events.",
-                imagePath: ""
+                imagePath: null
             },
             "CO-OP": {
                 description: "School Cooperative Store - Sells school supplies and other items.",
-                imagePath: "" // Add image filename here, e.g., "coop.jpg"
+                imagePath: null // Add image filename here, e.g., "coop.jpg"
             },
             "CLASS BLDG-5 FL-1": {
                 description: "Classroom Building 5, 1st Floor - Regular academic classrooms.",
-                imagePath: ""
+                imagePath: null
             },
             "G11 FACULTY": {
                 description: "Grade 11 Faculty Room - Office space for Grade 11 teachers.",
-                imagePath: ""
+                imagePath: "photo/msnhs/G11 FACULTY.jpg" // Add image filename here, e.g., "g11_faculty.jpg"
             },
             "SOUND SYSTEM": {
                 description: "Sound system control room for events and announcements.",
-                imagePath: ""
+                imagePath: null
             },
             "SMAW LAB": {
                 description: "Shielded Metal Arc Welding Laboratory - Technical-vocational workshop for welding training.",
-                imagePath: ""
+                imagePath: "photo/msnhs/SMAW LAB.jpg" // Add image filename here, e.g., "smaw_lab.jpg"
             },
             "CLASS BLDG-5 FL-2": {
                 description: "Classroom Building 5, 2nd Floor - Regular academic classrooms.",
-                imagePath: ""
+                imagePath: null
             },
             "CLASS BLDG-5 FL-3": {
                 description: "Classroom Building 5, 3rd Floor - Regular academic classrooms.",
-                imagePath: ""
+                imagePath: null
             },
             "CLASS BLDG-5 FL-4": {
                 description: "Classroom Building 5, 4th Floor - Regular academic classrooms.",
-                imagePath: ""
+                imagePath: null
             },
             "EIM LAB 1": {
                 description: "Electrical Installation and Maintenance Laboratory 1 - Technical-vocational workshop.",
-                imagePath: ""
+                imagePath: "photo/msnhs/EIM LAB.jpg"
             },
             "EIM LAB 2": {
                 description: "Electrical Installation and Maintenance Laboratory 2 - Technical-vocational workshop.",
-                imagePath: ""
+                imagePath: "photo/msnhs/EIM LAB.jpg"
             },
             "CAREGVNG LAB": {
                 description: "Caregiving Laboratory - Training facility for caregiving and health services course.",
-                imagePath: ""
+                imagePath: null
             },
             "CLASS BLDG-4 FL-1": {
                 description: "Classroom Building 4, 1st Floor - Regular academic classrooms.",
-                imagePath: ""
+                imagePath: null
             },
             "FBS LAB 1": {
                 description: "Food and Beverage Services Laboratory 1 - Culinary training facility.",
-                imagePath: ""
+                imagePath: "photo/msnhs/FBS LAB.jpg"
             },
             "FBS LAB 2": {
                 description: "Food and Beverage Services Laboratory 2 - Culinary training facility.",
-                imagePath: ""
+                imagePath: "photo/msnhs/FBS LAB.jpg"
             },
             "HOME ECO LAB 1": {
                 description: "Home Economics Laboratory 1 - Facility for home economics and life skills training.",
-                imagePath: ""
+                imagePath: "photo/msnhs/H.E LAB.jpg"
             },
             "HOME ECO LAB 2": {
                 description: "Home Economics Laboratory 2 - Facility for home economics and life skills training.",
-                imagePath: ""
+                imagePath: "photo/msnhs/H.E LAB.jpg"
             },
             "SCIELAB 2": {
                 description: "Science Laboratory 2 - Additional facility for conducting scientific experiments and research.",
-                imagePath: ""
+                imagePath: "photo/msnhs/SCIENCE LAB.jpg" // Add image filename here, e.g., "scielab2.jpg"
             },
             "WAITING SHED": {
                 description: "Covered waiting area near the entrance.",
-                imagePath: ""
+                imagePath: null
             },
             "GUARDHOUSE": {
                 description: "Security guardhouse at the school entrance.",
-                imagePath: ""
+                imagePath: null
             },
             "STORAGE 3": {
                 description: "Storage facility for school equipment and supplies.",
-                imagePath: ""
+                imagePath: null
             },
             "STORAGE 2": {
                 description: "Storage facility for school equipment and supplies.",
-                imagePath: ""
+                imagePath: null
             },
             "SMAW OUTDOORS": {
                 description: "Outdoor area for welding practice and technical activities.",
-                imagePath: ""
+                imagePath: "PHOTO/msnhs/SMAW OUTDOORS.jpg"
             },
             "JHS COURT": {
                 description: "Junior High School Court - Sports and recreation area for JHS students.",
-                imagePath: ""
+                imagePath: null
             },
             "GATE": {
                 description: "Main entrance gate to the school campus.",
-                imagePath: ""
+                imagePath: null
             }
         };
 
@@ -1518,17 +1540,19 @@ body.dark-mode .map-container {
         }
 
         function showInfo(roomName) {
-            const panel = document.getElementById('infoPanel');
-            const title = document.getElementById('infoTitle');
-            const details = document.getElementById('infoDetails');
+    const panel = document.getElementById('infoPanel');
+    const title = document.getElementById('infoTitle');
+    const details = document.getElementById('infoDetails');
 
-            title.textContent = roomName;
+    title.textContent = roomName;
 
-            const info = roomInfo[roomName];
-            if (info) {
-                let imageHTML = '';
-                
-                if (info.imagePath && info.imagePath !== '') {
+    const info = roomInfo[roomName];
+    if (info) {
+        let imageHTML = '';
+        
+        // Only show image section if imagePath is not null
+        if (info.imagePath !== null) {
+            if (info.imagePath && info.imagePath !== '') {
                     // If image path is provided, show the image
                     imageHTML = `
                         <div class="facility-image-container">
@@ -1537,19 +1561,20 @@ body.dark-mode .map-container {
                         </div>
                     `;
                 } else {
-                    // Show placeholder with instruction
-                    imageHTML = `
-                        <div class="facility-image-container">
-                            <div class="image-placeholder">
-                                <svg fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
-                                </svg>
-                                <p><strong>Add your facility image here</strong></p>
-                                <p style="font-size: 0.85em; margin-top: 5px;">Edit the code to add imagePath: "your-image.jpg"</p>
-                            </div>
+                // Show placeholder with instruction
+                imageHTML = `
+                    <div class="facility-image-container">
+                        <div class="image-placeholder">
+                            <svg fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                            </svg>
+                            <p><strong>Add your facility image here</strong></p>
+                            <p style="font-size: 0.85em; margin-top: 5px;">Edit the code to add imagePath: "your-image.jpg"</p>
                         </div>
-                    `;
-                }
+                    </div>
+                `;
+            }
+        }  // Add this closing bracket
                 
                 details.innerHTML = `
                     ${imageHTML}
