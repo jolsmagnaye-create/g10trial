@@ -3,34 +3,88 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About</title>
+  <title>About - Morong National Senior High School</title>
   <style>
-    /* Reset */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
-    body {
-      font-family: sans-serif;
-      background-color: #fff;
-      padding-top: 80px; /* Space for fixed navbar */
+    :root {
+      --bg-primary:    #1a1a1a;
+      --bg-secondary:  rgba(42, 42, 42, 0.8);
+      --bg-nav:        rgba(26, 26, 26, 0.95);
+      --text-primary:  #ffffff;
+      --text-secondary:#b3b3b3;
+      --text-tertiary: #e5e5e5;
+      --accent-color:  #22c55e;
+      --accent-hover:  #16a34a;
+      --border-color:  rgba(255, 255, 255, 0.1);
+      --card-bg:       rgba(42, 42, 42, 0.9);
+      --card-border:   rgba(255, 255, 255, 0.1);
+      --input-bg:      rgba(26, 26, 26, 0.9);
     }
 
-    /* Navigation Styles */
-    nav {
+    body.light-mode {
+      --bg-primary:    #f5f5f5;
+      --bg-secondary:  rgba(255, 255, 255, 0.95);
+      --bg-nav:        rgba(255, 255, 255, 0.98);
+      --text-primary:  #1a1a1a;
+      --text-secondary:#4a4a4a;
+      --text-tertiary: #2a2a2a;
+      --accent-color:  #15803d;
+      --accent-hover:  #166534;
+      --border-color:  rgba(0, 0, 0, 0.1);
+      --card-bg:       rgba(255, 255, 255, 0.95);
+      --card-border:   rgba(0, 0, 0, 0.1);
+      --input-bg:      rgba(255, 255, 255, 0.9);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    /* ── BACKGROUND OVERLAY ── */
+    .background-overlay {
       position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-image: url('photo/mnshsphoto1.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      opacity: 0.05;
+      z-index: -1;
+      transition: opacity 0.3s;
+    }
+
+    body.light-mode .background-overlay { opacity: 0.03; }
+
+    /* ── NAVIGATION ── */
+    nav {
+      background-color: var(--bg-nav);
+      padding: 1rem 2rem;
+      position: sticky;
       top: 0;
-      left: 0;
-      right: 0;
-      background: rgba(0, 0, 0, 0.9);
-      padding: 15px 30px;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-color);
+      transition: background-color 0.3s;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      z-index: 1000;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     }
 
     .logo {
@@ -40,35 +94,27 @@
     }
 
     .logo img {
-      width: 50px;
       height: 50px;
+      width: auto;
       border-radius: 50%;
-      object-fit: cover;
     }
 
     .nav-links {
       display: flex;
       list-style: none;
-      gap: 30px;
-      margin: 0;
-      padding: 0;
+      gap: 2rem;
     }
 
-    .nav-links li a {
-      color: white;
+    .nav-links a {
+      color: var(--text-primary);
       text-decoration: none;
-      font-size: 1.1em;
-      font-weight: 500;
-      transition: color 0.3s, background 0.3s;
-      padding: 8px 15px;
-      border-radius: 5px;
+      font-size: 1rem;
+      transition: color 0.3s;
+      padding: 0.5rem 1rem;
     }
 
-    .nav-links li a:hover,
-    .nav-links li a.active {
-      color: #667eea;
-      background: rgba(102, 126, 234, 0.1);
-    }
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--accent-color); }
 
     .burger {
       display: none;
@@ -80,642 +126,675 @@
     .burger div {
       width: 25px;
       height: 3px;
-      background: white;
+      background-color: var(--text-primary);
       transition: all 0.3s;
       border-radius: 3px;
     }
 
-    /* Burger Animation */
-    .burger.active .line1 {
-      transform: rotate(-45deg) translate(-5px, 6px);
-    }
-
-    .burger.active .line2 {
-      opacity: 0;
-    }
-
-    .burger.active .line3 {
-      transform: rotate(45deg) translate(-5px, -6px);
-    }
-
-    /* Mobile Navigation */
     @media (max-width: 768px) {
+      nav { padding: 1rem; }
+
       .nav-links {
         position: fixed;
         right: -100%;
-        top: 80px;
+        top: 70px;
         flex-direction: column;
-        background: rgba(0, 0, 0, 0.95);
+        background-color: var(--bg-nav);
         width: 100%;
         text-align: center;
         transition: right 0.3s;
-        padding: 30px 0;
+        padding: 2rem 0;
         gap: 0;
+        border-top: 1px solid var(--border-color);
       }
 
-      .nav-links li {
-        margin: 15px 0;
-      }
-
-      .nav-links li a {
-        font-size: 1.3em;
-      }
-
-      .nav-links.active {
-        right: 0;
-      }
-
-      .burger {
-        display: flex;
-      }
+      .nav-links.active { right: 0; }
+      .nav-links li { padding: 1rem 0; }
+      .burger { display: flex; }
     }
 
-    /* School Name */
-    .mnshs {
-      font-size: clamp(1.5rem, 2.5vw, 2.5rem);
-      font-weight: bold;
-      color: whitesmoke;
-      font-family: 'Times New Roman', Times, serif;
-      margin-left: 20px;
-    }
-
-    /* Footer */
-    .footer {
-      background-color: rgb(4, 9, 30);
-      color: white;
-      text-align: center;
-      padding: 10px;
-      width: 100%;
-      font-family: 'Times New Roman', Times, serif;
-    }
-
-    /* About Us Page */
+    /* ── SUB HEADER ── */
     .sub-header {
       height: 40vh;
       width: 100%;
-      background: linear-gradient(rgba(4,9,30,0.7), rgba(4,9,30,0.7)),
-                  url("photo/mnshsphoto1.jpg") center/cover no-repeat;
+      background:
+        linear-gradient(rgba(4,9,30,0.7), rgba(4,9,30,0.7)),
+        url("photo/mnshsphoto1.jpg") center/cover no-repeat;
       text-align: center;
-      color: wheat;
+      color: white;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       padding: 20px;
+      gap: 12px;
     }
 
     .sub-header h1 {
-      margin: 10px 0;
+      font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+      font-family: 'Times New Roman', Times, serif;
+      font-weight: bold;
     }
 
-    .about-us {
-      width: 80%;
-      margin: auto;
-      padding: 80px 0 50px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
+    .sub-header h2 {
+      font-size: clamp(1.2rem, 2vw, 1.8rem);
+      font-weight: 400;
+      opacity: 0.85;
     }
 
-    .picture-of-facilities,
-    .about-content,
-    .about-facility {
-      flex: 1 1 48%;
-      padding: 30px 2px;
+    /* ── SHARED SECTION WRAPPER ── */
+    .section-wrapper {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
     }
 
-    .about-content img {
-      width: 100%;
+    .section-title {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent-color);
+      margin-bottom: 0.5rem;
     }
 
-    .about-content h2,
-    .about-facility h2 {
-      font-size: 2rem;
-      margin-bottom: 20px;
-      color: #333;
+    .section-divider {
+      width: 48px;
+      height: 3px;
+      background: var(--accent-color);
+      border-radius: 2px;
+      margin-bottom: 2rem;
+      opacity: 0.7;
     }
 
-    .about-content p {
-      padding: 15px 0 25px;
-      line-height: 1.6;
-      color: #555;
+    /* ── ABOUT SECTION ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
     }
 
-    .about-facility ul {
+    @media (max-width: 768px) { .about-grid { grid-template-columns: 1fr; } }
+
+    .about-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 2rem;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+
+    .about-card h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--accent-color);
+      margin-bottom: 1rem;
+    }
+
+    .about-card p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.75;
+    }
+
+    .about-card ul {
       list-style: none;
       padding: 0;
     }
 
-    .about-facility ul li {
-      padding: 10px 0;
-      border-bottom: 1px solid #e0e0e0;
+    .about-card ul li {
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      font-size: 0.95rem;
       line-height: 1.6;
-      color: #555;
+      padding-left: 1.2rem;
+      position: relative;
     }
 
-    .about-facility ul li:last-child {
-      border-bottom: none;
+    .about-card ul li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: var(--accent-color);
     }
 
-    /* Buttons */
+    .about-card ul li:last-child { border-bottom: none; }
+
     .hero-btn {
       display: inline-block;
       text-decoration: none;
-      color: white;
-      border: 2px solid rgb(8, 139, 85);
-      padding: 12px 30px;
-      font-size: 1rem;
-      background: linear-gradient(135deg, rgb(8, 139, 85) 0%, rgb(7, 68, 43) 100%);
-      cursor: pointer;
-      margin-top: 30px;
-      transition: transform 0.2s, box-shadow 0.3s;
-      border-radius: 5px;
+      color: #ffffff;
+      background-color: var(--accent-color);
+      border: 2px solid var(--accent-color);
+      padding: 0.75rem 1.8rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: 8px;
+      margin-top: 1.5rem;
+      transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
     }
 
     .hero-btn:hover {
+      background-color: var(--accent-hover);
+      border-color: var(--accent-hover);
       transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(8, 139, 85, 0.4);
+      box-shadow: 0 5px 15px rgba(34, 197, 94, 0.35);
     }
 
-    /* Clubs and Organizations */
+    /* ── CLUBS ── */
     .clubs-section {
-      width: 80%;
-      margin: 60px auto;
-      padding: 40px 0;
-      background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(8, 139, 85, 0.05) 100%);
-      border-radius: 10px;
+      background-color: var(--bg-secondary);
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+      transition: background-color 0.3s;
     }
 
-    .clubs-section h2 {
+    .section-title-center {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent-color);
       text-align: center;
-      font-size: 2.5rem;
-      color: #333;
-      margin-bottom: 40px;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-divider-center {
+      width: 48px;
+      height: 3px;
+      background: var(--accent-color);
+      border-radius: 2px;
+      margin: 0 auto 2.5rem;
+      opacity: 0.7;
     }
 
     .clubs-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      padding: 0 40px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.2rem;
     }
 
     .club-card {
-      background: white;
-      padding: 20px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-left: 4px solid var(--accent-color);
       border-radius: 8px;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s, box-shadow 0.3s;
-      border-left: 4px solid rgb(8, 139, 85);
+      padding: 1.2rem 1.4rem;
+      transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
     }
 
     .club-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 5px 20px rgba(8, 139, 85, 0.2);
+      transform: translateY(-4px);
+      box-shadow: 0 6px 20px rgba(34, 197, 94, 0.15);
     }
 
     .club-card h3 {
-      color: rgb(8, 139, 85);
-      margin-bottom: 5px;
+      color: var(--accent-color);
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .club-card p {
+      color: var(--text-secondary);
+      font-size: 0.87rem;
+    }
+
+    /* ── TRACKS ── */
+    .tracks-section { background-color: var(--bg-primary); transition: background-color 0.3s; }
+
+    .tracks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .track-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.8rem;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+
+    .track-card:hover { border-color: var(--accent-color); }
+
+    .track-card h3 {
+      color: var(--accent-color);
       font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--border-color);
     }
 
-    /* Academic Tracks */
-    .tracks-section {
-      width: 80%;
-      margin: 60px auto;
-      padding: 40px 0;
-    }
+    .track-card ul { list-style: none; padding: 0; }
 
-    .tracks-section h2 {
-      text-align: center;
-      font-size: 2.5rem;
-      color: #333;
-      margin-bottom: 20px;
-    }
-
-    .tracks-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 30px;
-      margin-top: 40px;
-    }
-
-    .track-category {
-      flex: 1 1 45%;
-      background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(8, 139, 85, 0.08) 100%);
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    .track-category h3 {
-      color: rgb(8, 139, 85);
-      font-size: 1.5rem;
-      margin-bottom: 20px;
-      border-bottom: 2px solid rgb(8, 139, 85);
-      padding-bottom: 10px;
-    }
-
-    .track-category ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .track-category ul li {
-      padding: 12px 0;
-      padding-left: 25px;
+    .track-card ul li {
+      padding: 0.5rem 0 0.5rem 1.2rem;
       position: relative;
-      color: #555;
-      line-height: 1.6;
+      color: var(--text-secondary);
+      font-size: 0.93rem;
+      border-bottom: 1px solid var(--border-color);
     }
 
-    .track-category ul li:before {
+    .track-card ul li:last-child { border-bottom: none; }
+
+    .track-card ul li::before {
       content: "▸";
       position: absolute;
       left: 0;
-      color: rgb(8, 139, 85);
-      font-weight: bold;
+      color: var(--accent-color);
     }
 
-    /* Awards Section */
+    /* ── AWARDS ── */
     .awards-section {
-      width: 80%;
-      margin: 60px auto;
-      padding: 40px;
-      background: linear-gradient(135deg, rgba(8, 139, 85, 0.05) 0%, rgba(102, 126, 234, 0.05) 100%);
-      border-radius: 10px;
+      background-color: var(--bg-secondary);
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+      transition: background-color 0.3s;
     }
 
-    .awards-section h2 {
-      text-align: center;
-      font-size: 2.5rem;
-      color: #333;
-      margin-bottom: 30px;
+    .award-block {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.8rem;
+      margin-bottom: 1.2rem;
+      transition: background-color 0.3s;
     }
 
-    .award-category {
-      margin: 30px 0;
-      background: white;
-      padding: 25px;
-      border-radius: 8px;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .award-category h3 {
-      color: rgb(8, 139, 85);
-      font-size: 1.4rem;
-      margin-bottom: 15px;
+    .award-block h3 {
+      color: var(--accent-color);
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
     }
 
     .award-item {
-      margin: 15px 0;
-      padding-left: 20px;
-      border-left: 3px solid rgb(8, 139, 85);
+      padding: 0.8rem 0 0.8rem 1rem;
+      border-left: 3px solid var(--accent-color);
+      margin-bottom: 0.8rem;
     }
 
+    .award-item:last-child { margin-bottom: 0; }
+
     .award-item h4 {
-      color: #333;
-      font-size: 1.1rem;
-      margin-bottom: 8px;
+      color: var(--text-primary);
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 4px;
     }
 
     .award-item p {
-      color: #666;
-      margin: 5px 0;
-      line-height: 1.5;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin: 2px 0;
     }
 
-    /* What We Offer Section */
-    .offers-section {
-      width: 80%;
-      margin: 60px auto;
-      padding: 40px 0;
-    }
-
-    .offers-section h2 {
-      text-align: center;
-      font-size: 2.5rem;
-      color: #333;
-      margin-bottom: 40px;
-    }
+    /* ── OFFERS ── */
+    .offers-section { background-color: var(--bg-primary); transition: background-color 0.3s; }
 
     .offers-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 25px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.2rem;
     }
 
     .offer-card {
-      background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(8, 139, 85, 0.08) 100%);
-      padding: 25px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-top: 3px solid var(--accent-color);
       border-radius: 8px;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s, box-shadow 0.3s;
-      border-top: 4px solid rgb(8, 139, 85);
+      padding: 1.4rem;
+      transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
     }
 
     .offer-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 5px 20px rgba(8, 139, 85, 0.2);
+      transform: translateY(-4px);
+      box-shadow: 0 6px 20px rgba(34, 197, 94, 0.12);
     }
 
     .offer-card h3 {
-      color: rgb(8, 139, 85);
-      font-size: 1.2rem;
-      margin-bottom: 8px;
+      color: var(--accent-color);
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 6px;
     }
 
     .offer-card p {
-      color: #666;
-      font-size: 0.9rem;
+      color: var(--text-secondary);
+      font-size: 0.88rem;
       line-height: 1.5;
     }
 
-    /* Responsive Design */
+    /* ── FOOTER ── */
+    footer {
+      background-color: var(--bg-nav);
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid var(--border-color);
+      transition: background-color 0.3s;
+    }
+
+    footer p { color: var(--text-secondary); font-size: 0.95rem; }
+
+    /* ── THEME TOGGLE ── */
+    .theme-toggle {
+      position: fixed;
+      bottom: 100px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      background-color: var(--accent-color);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s;
+      z-index: 999;
+    }
+
+    .theme-toggle:hover { background-color: var(--accent-hover); transform: scale(1.1); }
+    .theme-toggle svg { width: 28px; height: 28px; color: white; }
+
+    /* ── SCROLL TO TOP ── */
+    .scroll-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      background-color: var(--accent-color);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s;
+      z-index: 999;
+    }
+
+    .scroll-top.show { display: flex; }
+    .scroll-top:hover { background-color: var(--accent-hover); transform: translateY(-5px); }
+    .scroll-top svg { width: 28px; height: 28px; color: white; }
+
+    /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
-      .about-us {
-        flex-direction: column;
-      }
+      .clubs-grid, .offers-grid { grid-template-columns: 1fr 1fr; }
+      .tracks-grid              { grid-template-columns: 1fr; }
+      .scroll-top,
+      .theme-toggle             { right: 20px; width: 50px; height: 50px; }
+      .theme-toggle             { bottom: 85px; }
+      .scroll-top               { bottom: 20px; }
+      .scroll-top svg,
+      .theme-toggle svg         { width: 24px; height: 24px; }
+    }
 
-      .picture-of-facilities,
-      .about-content,
-      .about-facility {
-        flex: 1 1 100%;
-      }
-
-      .clubs-section,
-      .tracks-section,
-      .awards-section,
-      .offers-section {
-        width: 90%;
-      }
-
-      .clubs-grid {
-        grid-template-columns: 1fr;
-        padding: 0 20px;
-      }
-
-      .tracks-container {
-        flex-direction: column;
-      }
-
-      .track-category {
-        flex: 1 1 100%;
-      }
-
-      .offers-grid {
-        grid-template-columns: 1fr;
-      }
+    @media (max-width: 480px) {
+      .clubs-grid, .offers-grid { grid-template-columns: 1fr; }
+      .scroll-top,
+      .theme-toggle             { right: 15px; width: 45px; height: 45px; }
+      .theme-toggle             { bottom: 75px; }
+      .scroll-top               { bottom: 15px; }
+      .scroll-top svg,
+      .theme-toggle svg         { width: 20px; height: 20px; }
     }
   </style>
 </head>
-
 <body>
+
+  <!-- Background Overlay -->
+  <div class="background-overlay"></div>
+
   <!-- Navigation -->
   <nav>
-    <a href="index.html" class="logo">
-      <img src="photo/NEw logo.png" alt="School Logo">
-    </a>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="aboutpage.html" class="active">About</a></li>
-      <li><a href="Map.html">Map</a></li>
-      <li><a href="contact.html">Contact</a></li>
-      <li><a href="staff.html">Staff</a></li>
-    </ul>
-    <div class="burger" id="burger">
-      <div class="line1"></div>
-      <div class="line2"></div>
-      <div class="line3"></div>
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <img src="photo/NEw logo.png" alt="School Logo">
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="aboutpage.html" class="active">About</a></li>
+        <li><a href="Map.html">Map</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="staff.html">Staff</a></li>
+      </ul>
+      <div class="burger" id="burger">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
     </div>
   </nav>
 
   <!-- Sub Header -->
   <section class="sub-header">
-    <h1 class="mnshs">Morong National Senior High School</h1>
-    <h1>About Us</h1>
+    <h1>Morong National Senior High School</h1>
+    <h2>About Us</h2>
   </section>
 
-  <!-- About Us Content -->
-  <section class="about-us">
-    <div class="row">
-      <div class="about-content">
-        <h2>About Morong National Senior High School</h2>
+  <!-- About Section -->
+  <div class="section-wrapper">
+    <h2 class="section-title">About Morong National Senior High School</h2>
+    <div class="section-divider"></div>
+    <div class="about-grid">
+      <div class="about-card">
+        <h3>Our Story</h3>
         <p>
-          Morong National Senior High School (MNSHS) is a premier educational institution dedicated to providing quality education to senior high school students.
-          Established with the vision of nurturing future leaders, MNSHS offers a comprehensive curriculum that caters to diverse academic interests and career paths.
-          At MNSHS, we believe in fostering a supportive and inclusive learning environment where students can thrive academically, socially, and personally.
-          Our dedicated faculty members are committed to guiding students through their educational journey, ensuring they are well-prepared for higher education and the workforce.
-          We take pride in our state-of-the-art facilities, extracurricular programs, and community engagement initiatives that enrich the student experience. MNSHS is more than just a school;
-          it is a community where students are encouraged to explore their passions, develop critical thinking skills, and become responsible global citizens.
-          Join us at Morong National Senior High School, where education meets excellence and every student has the opportunity to shine.
+          Morong National Senior High School (MNSHS) is a premier educational institution dedicated to providing quality
+          education to senior high school students. Established with the vision of nurturing future leaders, MNSHS offers
+          a comprehensive curriculum that caters to diverse academic interests and career paths.
+        </p>
+        <p style="margin-top: 1rem;">
+          At MNSHS, we believe in fostering a supportive and inclusive learning environment where students can thrive
+          academically, socially, and personally. Our dedicated faculty members are committed to guiding students through
+          their educational journey, ensuring they are well-prepared for higher education and the workforce.
         </p>
         <a href="Map.html" class="hero-btn">Explore Our Facilities</a>
       </div>
 
-      <div class="about-facility">
-        <h2>Our Facilities</h2>
+      <div class="about-card">
+        <h3>Our Facilities</h3>
         <ul>
-          <li>Modern Classrooms: Equipped with the latest technology to enhance learning experiences.</li>
-          <li>Science Laboratories: State-of-the-art labs for hands-on experiments and research.</li>
-          <li>Library: A vast collection of books, digital resources, and study areas.</li>
-          <li>Cafeteria: A clean and comfortable dining area offering nutritious meals.</li>
-          <li>Computer Labs: High-speed internet access and modern computers for student use.</li>
+          <li>Modern Classrooms equipped with the latest technology to enhance learning experiences.</li>
+          <li>Science Laboratories — state-of-the-art labs for hands-on experiments and research.</li>
+          <li>Library with a vast collection of books, digital resources, and study areas.</li>
+          <li>Cafeteria — a clean and comfortable dining area offering nutritious meals.</li>
+          <li>Computer Labs with high-speed internet access and modern computers for student use.</li>
         </ul>
       </div>
-
-      <div class="about-content">
-        <!-- Optional facility image -->
-        <!-- <img src="photo/facility photo.jpg" alt="Picture of Facility"> -->
-      </div>
     </div>
-  </section>
+  </div>
 
   <!-- Clubs and Organizations -->
-  <section class="clubs-section">
-    <h2>Clubs and Organizations</h2>
-    <div class="clubs-grid">
-      <div class="club-card">
-        <h3>Ang Balwarte - La Torre</h3>
-        <p>MNSHS Publication</p>
-      </div>
-      <div class="club-card">
-        <h3>Ang Bahaghari Club</h3>
-      </div>
-      <div class="club-card">
-        <h3>Yes-O Club</h3>
-        <p>MNSHS</p>
-      </div>
-      <div class="club-card">
-        <h3>Arts Club</h3>
-        <p>MNSHS</p>
-      </div>
-      <div class="club-card">
-        <h3>Dance Club</h3>
-        <p>MNSHS</p>
-      </div>
-      <div class="club-card">
-        <h3>Music Club</h3>
-        <p>MNSHS</p>
-      </div>
-      <div class="club-card">
-        <h3>TVL Club</h3>
-        <p>MNSHS</p>
-      </div>
-      <div class="club-card">
-        <h3>STEM Club</h3>
-        <p>MNSHS</p>
-      </div>
-      <div class="club-card">
-        <h3>SSLG</h3>
-        <p>MNSHS</p>
+  <div class="clubs-section">
+    <div class="section-wrapper">
+      <h2 class="section-title-center">Clubs and Organizations</h2>
+      <div class="section-divider-center"></div>
+      <div class="clubs-grid">
+        <div class="club-card"><h3>Ang Balwarte - La Torre</h3><p>MNSHS Publication</p></div>
+        <div class="club-card"><h3>Ang Bahaghari Club</h3></div>
+        <div class="club-card"><h3>Yes-O Club</h3><p>MNSHS</p></div>
+        <div class="club-card"><h3>Arts Club</h3><p>MNSHS</p></div>
+        <div class="club-card"><h3>Dance Club</h3><p>MNSHS</p></div>
+        <div class="club-card"><h3>Music Club</h3><p>MNSHS</p></div>
+        <div class="club-card"><h3>TVL Club</h3><p>MNSHS</p></div>
+        <div class="club-card"><h3>STEM Club</h3><p>MNSHS</p></div>
+        <div class="club-card"><h3>SSLG</h3><p>MNSHS</p></div>
       </div>
     </div>
-  </section>
+  </div>
 
   <!-- Academic Tracks -->
-  <section class="tracks-section">
-    <h2>Academic Programs</h2>
-    <div class="tracks-container">
-      <div class="track-category">
-        <h3>Academic Track</h3>
-        <ul>
-          <li>Science and Technology, Engineering and Mathematics (STEM)</li>
-          <li>Humanities and Social Sciences (HUMSS)</li>
-          <li>Accountancy and Business Management (ABM)</li>
-        </ul>
-      </div>
-      
-      <div class="track-category">
-        <h3>Technical Vocational Livelihood Track (TVL)</h3>
-        <ul>
-          <li>Shielded Metal Arc Welding (SMAW)</li>
-          <li>Electrical Installation and Maintenance (EIM)</li>
-          <li>Caregiving</li>
-          <li>Food and Beverage Services (FBS) (H.E.)</li>
-        </ul>
+  <div class="tracks-section">
+    <div class="section-wrapper">
+      <h2 class="section-title-center">Academic Programs</h2>
+      <div class="section-divider-center"></div>
+      <div class="tracks-grid">
+        <div class="track-card">
+          <h3>Academic Track</h3>
+          <ul>
+            <li>Science and Technology, Engineering and Mathematics (STEM)</li>
+            <li>Humanities and Social Sciences (HUMSS)</li>
+            <li>Accountancy and Business Management (ABM)</li>
+          </ul>
+        </div>
+        <div class="track-card">
+          <h3>Technical Vocational Livelihood Track (TVL)</h3>
+          <ul>
+            <li>Shielded Metal Arc Welding (SMAW)</li>
+            <li>Electrical Installation and Maintenance (EIM)</li>
+            <li>Caregiving</li>
+            <li>Food and Beverage Services (FBS) (H.E.)</li>
+          </ul>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
 
   <!-- School Awards -->
-  <section class="awards-section">
-    <h2>School Awards</h2>
-    
-    <div class="award-category">
-      <h3>SPORTS ACHIEVEMENTS</h3>
-      
-      <div class="award-item">
-        <h4>Athletics - Municipal Meet Champion</h4>
-        <p>(1) Markiel Asa</p>
-        <p>(2) Jaylou Mesa</p>
-        <p>(3) Ryan Flores</p>
-      </div>
-      
-      <div class="award-item">
-        <h4>Pencak - Municipal Meet Champion</h4>
-        <p>(1) Rennel Bantoy</p>
-      </div>
-      
-      <div class="award-item">
-        <h4>Chess - Municipal Meet Champion</h4>
-        <p>(1) Shine Macaraeg</p>
-      </div>
-      
-      <div class="award-item">
-        <h4>Volleyball</h4>
-        <p>VBB & VBG - Municipal Meet Champion</p>
-        <p>VBB - Division Champion</p>
+  <div class="awards-section">
+    <div class="section-wrapper">
+      <h2 class="section-title-center">School Awards</h2>
+      <div class="section-divider-center"></div>
+      <div class="award-block">
+        <h3>🏅 Sports Achievements</h3>
+        <div class="award-item">
+          <h4>Athletics — Municipal Meet Champion</h4>
+          <p>(1) Markiel Asa</p>
+          <p>(2) Jaylou Mesa</p>
+          <p>(3) Ryan Flores</p>
+        </div>
+        <div class="award-item">
+          <h4>Pencak — Municipal Meet Champion</h4>
+          <p>(1) Rennel Bantoy</p>
+        </div>
+        <div class="award-item">
+          <h4>Chess — Municipal Meet Champion</h4>
+          <p>(1) Shine Macaraeg</p>
+        </div>
+        <div class="award-item">
+          <h4>Volleyball</h4>
+          <p>VBB &amp; VBG — Municipal Meet Champion</p>
+          <p>VBB — Division Champion</p>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- What We Offer -->
-  <section class="offers-section">
-    <h2>What We Have</h2>
-    <div class="offers-grid">
-      <div class="offer-card">
-        <h3>Computer Lab</h3>
-        <p>Modern computers with high-speed internet access for student learning.</p>
-      </div>
-      <div class="offer-card">
-        <h3>Faculty/SGH</h3>
-        <p>Dedicated spaces for faculty and school governance.</p>
-      </div>
-      <div class="offer-card">
-        <h3>Registrar</h3>
-        <p>Student records and enrollment services.</p>
-      </div>
-      <div class="offer-card">
-        <h3>Principal's Office & Guidance</h3>
-        <p>Administrative support and student counseling services.</p>
-      </div>
-      <div class="offer-card">
-        <h3>Publication Room</h3>
-        <p>4th floor, utmost right side, left building.</p>
-      </div>
-      <div class="offer-card">
-        <h3>Storage Room</h3>
-        <p>4th floor, 2 middle rooms, left building.</p>
-      </div>
-      <div class="offer-card">
-        <h3>Science Lab</h3>
-        <p>State-of-the-art laboratory for hands-on experiments.</p>
-      </div>
-      <div class="offer-card">
-        <h3>Library</h3>
-        <p>Extensive collection of books and digital resources.</p>
-      </div>
-      <div class="offer-card">
-        <h3>Sound System</h3>
-        <p>Professional audio equipment for school events.</p>
-      </div>
-      <div class="offer-card">
-        <h3>Cooperative (Coop)</h3>
-        <p>Student cooperative services and supplies.</p>
-      </div>
-      <div class="offer-card">
-        <h3>Caregiving Lab</h3>
-        <p>Specialized facility for caregiving training.</p>
-      </div>
-      <div class="offer-card">
-        <h3>EIM Lab</h3>
-        <p>Electrical Installation and Maintenance laboratory (likod ng school, building ng Caregiving).</p>
-      </div>
-      <div class="offer-card">
-        <h3>Canteen</h3>
-        <p>Clean dining area with nutritious meal options.</p>
-      </div>
-      <div class="offer-card">
-        <h3>Lost and Found</h3>
-        <p>Located at SGH for student convenience.</p>
+  <!-- What We Have -->
+  <div class="offers-section">
+    <div class="section-wrapper">
+      <h2 class="section-title-center">What We Have</h2>
+      <div class="section-divider-center"></div>
+      <div class="offers-grid">
+        <div class="offer-card"><h3>Computer Lab</h3><p>Modern computers with high-speed internet access for student learning.</p></div>
+        <div class="offer-card"><h3>Faculty / SGH</h3><p>Dedicated spaces for faculty and school governance.</p></div>
+        <div class="offer-card"><h3>Registrar</h3><p>Student records and enrollment services.</p></div>
+        <div class="offer-card"><h3>Principal's Office &amp; Guidance</h3><p>Administrative support and student counseling services.</p></div>
+        <div class="offer-card"><h3>Publication Room</h3><p>4th floor, utmost right side, left building.</p></div>
+        <div class="offer-card"><h3>Storage Room</h3><p>4th floor, 2 middle rooms, left building.</p></div>
+        <div class="offer-card"><h3>Science Lab</h3><p>State-of-the-art laboratory for hands-on experiments.</p></div>
+        <div class="offer-card"><h3>Library</h3><p>Extensive collection of books and digital resources.</p></div>
+        <div class="offer-card"><h3>Sound System</h3><p>Professional audio equipment for school events.</p></div>
+        <div class="offer-card"><h3>Cooperative (Coop)</h3><p>Student cooperative services and supplies.</p></div>
+        <div class="offer-card"><h3>Caregiving Lab</h3><p>Specialized facility for caregiving training.</p></div>
+        <div class="offer-card"><h3>EIM Lab</h3><p>Electrical Installation and Maintenance laboratory.</p></div>
+        <div class="offer-card"><h3>Canteen</h3><p>Clean dining area with nutritious meal options.</p></div>
+        <div class="offer-card"><h3>Lost and Found</h3><p>Located at SGH for student convenience.</p></div>
       </div>
     </div>
-  </section>
+  </div>
 
   <!-- Footer -->
-  <section class="footer">
-    <h4>MNSHS</h4>
-    <p>2025-2026.</p>
-  </section>
+  <footer>
+    <p>&copy; 2026 Morong National Senior High School. All rights reserved.</p>
+  </footer>
 
-  <!-- Scripts -->
+  <!-- Theme Toggle Button -->
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle Theme">
+    <svg id="sunIcon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+    </svg>
+    <svg id="moonIcon" style="display:none;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+    </svg>
+  </button>
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-top" id="scrollTop" aria-label="Scroll to Top">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+    </svg>
+  </button>
+
   <script>
-    // Burger Menu Toggle
-    const burger = document.getElementById('burger');
+    // ── Burger Menu ──
+    const burger   = document.getElementById('burger');
     const navLinks = document.getElementById('navLinks');
 
     burger.addEventListener('click', () => {
       navLinks.classList.toggle('active');
-      burger.classList.toggle('active');
+      const lines = burger.children;
+      if (navLinks.classList.contains('active')) {
+        lines[0].style.transform = 'rotate(45deg) translate(7px, 7px)';
+        lines[1].style.opacity   = '0';
+        lines[2].style.transform = 'rotate(-45deg) translate(7px, -7px)';
+      } else {
+        lines[0].style.transform = 'none';
+        lines[1].style.opacity   = '1';
+        lines[2].style.transform = 'none';
+      }
     });
 
-    // Close menu when clicking on a link
-    document.querySelectorAll('.nav-links a').forEach(link => {
-      link.addEventListener('click', () => {
+    document.addEventListener('click', (e) => {
+      if (!burger.contains(e.target) && !navLinks.contains(e.target)) {
         navLinks.classList.remove('active');
-        burger.classList.remove('active');
-      });
+        const lines = burger.children;
+        lines[0].style.transform = 'none';
+        lines[1].style.opacity   = '1';
+        lines[2].style.transform = 'none';
+      }
+    });
+
+    // ── Theme Toggle ──
+    const themeToggle = document.getElementById('themeToggle');
+    const sunIcon     = document.getElementById('sunIcon');
+    const moonIcon    = document.getElementById('moonIcon');
+    const body        = document.body;
+
+    const currentTheme = localStorage.getItem('theme') || 'dark';
+    if (currentTheme === 'light') {
+      body.classList.add('light-mode');
+      sunIcon.style.display  = 'none';
+      moonIcon.style.display = 'block';
+    }
+
+    themeToggle.addEventListener('click', () => {
+      body.classList.toggle('light-mode');
+      if (body.classList.contains('light-mode')) {
+        sunIcon.style.display  = 'none';
+        moonIcon.style.display = 'block';
+        localStorage.setItem('theme', 'light');
+      } else {
+        sunIcon.style.display  = 'block';
+        moonIcon.style.display = 'none';
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+
+    // ── Scroll to Top ──
+    const scrollTop = document.getElementById('scrollTop');
+
+    window.addEventListener('scroll', () => {
+      scrollTop.classList.toggle('show', window.pageYOffset > 300);
+    });
+
+    scrollTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   </script>
 </body>
